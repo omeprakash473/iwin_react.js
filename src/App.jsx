@@ -2,13 +2,15 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Header from './components/Header.jsx';
 import Landing from './figma/Landing.jsx';
 import Login from './figma/Login.jsx';
+import Dashboard, { DashboardProgress } from './figma/Dashboard.jsx';
+import Account, { ChangePassword } from './figma/Account.jsx';
 import ForgotPassword from './figma/ForgotPassword.jsx';
 import Signup from './figma/Signup.jsx';
 import Checkout from './figma/Checkout.jsx';
 import Success from './figma/Success.jsx';
 import './styles.css';
 
-const screens = { '/': Landing, '/landing': Landing, '/login': Login, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success };
+const screens = { '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success };
 
 function routePath(url) {
  const base = import.meta.env.BASE_URL;
@@ -51,5 +53,5 @@ export default function App() {
   }
 
   const Screen = screens[routePath(location)] || Landing;
-  return <div onClick={navigate}><Header key={new URL(location).pathname} /><Screen /></div>;
+  return <div onClick={navigate}><Header dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} dashboard={['/dashboard','/dashboard-progress','/profile','/change-password'].includes(routePath(location))} key={new URL(location).pathname} /><Screen /></div>;
 }
