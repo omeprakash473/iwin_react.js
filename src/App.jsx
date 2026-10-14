@@ -10,6 +10,11 @@ import './styles.css';
 
 const screens = { '/': Landing, '/landing': Landing, '/login': Login, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success };
 
+function routePath(url) {
+ const base = import.meta.env.BASE_URL;
+ const pathname = new URL(url).pathname;
+ return (base !== '/' && pathname.startsWith(base) ? '/' + pathname.slice(base.length) : pathname).toLowerCase().replace(/\/$/, '') || '/';
+}
 export default function App() {
   const [location, setLocation] = useState(() => window.location.href);
 
@@ -39,12 +44,12 @@ export default function App() {
     const link = event.target.closest('a[href]');
     if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
     const next = new URL(link.href, window.location.href);
-    if (next.origin !== window.location.origin || !screens[next.pathname.toLowerCase()]) return;
+    if (next.origin !== window.location.origin || !screens[routePath(next.href)]) return;
     event.preventDefault();
     if (next.href !== window.location.href) window.history.pushState(null, '', next.href);
     setLocation(next.href);
   }
 
-  const Screen = screens[new URL(location).pathname.toLowerCase()] || Landing;
+  const Screen = screens[routePath(location)] || Landing;
   return <div onClick={navigate}><Header key={new URL(location).pathname} /><Screen /></div>;
 }

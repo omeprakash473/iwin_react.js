@@ -1,5 +1,5 @@
 import React from 'react';
-const assetPathPrefix = "/assets/landing";
+const assetPathPrefix = (import.meta.env.BASE_URL + "assets/landing");
 const imgRectangle2 = `${assetPathPrefix}/da1ad.png`;
 const imgRectangle5 = `${assetPathPrefix}/98f9e.png`;
 const imgRectangle8 = `${assetPathPrefix}/73f57.png`;
