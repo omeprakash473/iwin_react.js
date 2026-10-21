@@ -1,3 +1,5 @@
+import {PaymentProvider,usePayment} from './payments/PaymentContext.jsx';
+import { AuthProvider, useAuth, navigateTo } from './auth/AuthContext.jsx';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Header from './components/Header.jsx';
 import Landing from './figma/Landing.jsx';
@@ -17,7 +19,10 @@ function routePath(url) {
  const pathname = new URL(url).pathname;
  return (base !== '/' && pathname.startsWith(base) ? '/' + pathname.slice(base.length) : pathname).toLowerCase().replace(/\/$/, '') || '/';
 }
-export default function App() {
+export default function App() { return <AuthProvider><PaymentProvider><AppContent /></PaymentProvider></AuthProvider>; }
+function AppContent() {
+  const {session, ready, error:sessionError} = useAuth();
+  const payment=usePayment();
   const [location, setLocation] = useState(() => window.location.href);
 
   useEffect(() => {
@@ -52,6 +57,20 @@ export default function App() {
     setLocation(next.href);
   }
 
+  const protectedPage = ['/dashboard','/dashboard-progress','/profile','/change-password','/checkout','/success'].includes(routePath(location));
+  useEffect(() => { if(ready && protectedPage && !session) navigateTo('/login', true); }, [ready, protectedPage, session]);
+  const requiresPayment=['/dashboard','/dashboard-progress','/success'].includes(routePath(location));
+  const paymentPage=requiresPayment || routePath(location)==='/checkout';
+  useEffect(()=>{
+   if(!ready || !session || payment.status!=='ready')return;
+   if(requiresPayment && !payment.unlocked)navigateTo('/checkout',true);
+   else if(routePath(location)==='/checkout' && payment.unlocked)navigateTo('/dashboard',true);
+  },[ready,session,payment.status,payment.unlocked,requiresPayment,location]);
+  if (protectedPage && !ready) return <main className="account-page" role="status">Restoring your session…</main>;
+  if (protectedPage && !session) return null;
+  if (protectedPage && sessionError) return <main className="account-page"><p role="alert">{sessionError}</p><button className="btn btn-primary" onClick={()=>window.location.reload()}>Retry connection</button></main>;
+  if(paymentPage && session && payment.status==='error')return <><Header/><main className="account-page"><section className="account-card"><h1>Unable to check payment status</h1><p role="alert">{payment.error}</p><p>Your account has not been charged by this check. Please retry to confirm access.</p><button className="btn btn-primary" onClick={()=>payment.refresh().catch(()=>{})}>Retry payment check</button></section></main></>;
+  if(paymentPage && session && (payment.status!=='ready' || (requiresPayment && !payment.unlocked) || (routePath(location)==='/checkout'&&payment.unlocked)))return <><Header/><main className="account-page" role="status">Checking your registration payment…</main></>;
   const Screen = screens[routePath(location)] || Landing;
-  return <div onClick={navigate}><Header dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} dashboard={['/dashboard','/dashboard-progress','/profile','/change-password'].includes(routePath(location))} key={new URL(location).pathname} /><Screen /></div>;
+  return <div onClick={navigate}><Header dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} key={new URL(location).pathname} /><Screen /></div>;
 }
