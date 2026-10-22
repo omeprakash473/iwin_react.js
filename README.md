@@ -31,3 +31,7 @@ Set VITE_CASHFREE_MODE=sandbox for the development backend. Confirm the backend 
 SDK reference: https://www.cashfree.com/devstudio/preview/pg/web/popupCheckout
 
 No real transaction was executed during integration. Automated payment tests mock API responses. The development browser environment was unavailable for a visual checkout test.
+
+## Payment return page
+
+`/payment/return` checks backend payment confirmation and supports re-sign-in on a new origin. Inline checkout completion opens this page. See PAYMENT-STAGING.md for root-domain build settings and the required backend routing for `/payment/notify`.

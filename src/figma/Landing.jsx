@@ -59,7 +59,7 @@ export default function Landing() {
               <div className="button-row"><Link className="btn btn-primary" href="/checkout">Start Assessment · ₹500 ↗</Link><Link className="btn btn-outline" href="#contact">Enquire about career Assessments</Link></div>
             </div>
             <div className="hero-story">
-              <img className="photo" src={assets + '0e600.png'} alt="Two students exploring career possibilities together" />
+              <img className="photo" src={assets + '0e600.png'} width="1024" height="1024" loading="eager" fetchPriority="high" decoding="async" alt="Two students exploring career possibilities together" />
               <div className="interest-sticker"><strong>A little curiosity. A big future.</strong><span>Create&nbsp; Explore</span></div>
               <div className="discovery-badge"><img src={assets + 'a1ff7.svg'} alt="" /></div>
               <div className="report-teaser"><strong>Not a score to live up to.</strong><p>A map of strengths to grow into.</p><div className="mini-chart" aria-hidden="true"><span /><span /><span /></div></div>
@@ -89,8 +89,8 @@ export default function Landing() {
       </div></section>
 
       <section className="section-pad"><div className="container"><p className="eyebrow">Real students, wider possibilities</p><h2>Clarity can sound like this.</h2><div className="stories-grid">
-        <figure className="story-card"><div className="story-photo"><img className="photo" src={assets+'e4100.png'} alt="Student reflecting on her interests in a library" /></div><blockquote>“I stopped asking ‘Which stream is best?’ and started asking what kind of work keeps me curious.”</blockquote><figcaption>Meher · Class 11 · Jaipur</figcaption></figure>
-        <figure className="story-card"><div className="story-photo"><img className="photo" src={assets+'e05af.png'} alt="A parent and student discussing their future together" /></div><blockquote>“My family and I finally had a calm conversation. The report gave us shared language, not a final answer.”</blockquote><figcaption>Ayesha · Class 12 · Kochi</figcaption></figure>
+        <figure className="story-card"><div className="story-photo"><img className="photo" src={assets+'e4100.png'} width="1376" height="768" loading="lazy" decoding="async" alt="Student reflecting on her interests in a library" /></div><blockquote>“I stopped asking ‘Which stream is best?’ and started asking what kind of work keeps me curious.”</blockquote><figcaption>Meher · Class 11 · Jaipur</figcaption></figure>
+        <figure className="story-card"><div className="story-photo"><img className="photo" src={assets+'e05af.png'} width="1376" height="768" loading="lazy" decoding="async" alt="A parent and student discussing their future together" /></div><blockquote>“My family and I finally had a calm conversation. The report gave us shared language, not a final answer.”</blockquote><figcaption>Ayesha · Class 12 · Kochi</figcaption></figure>
       </div></div></section>
 
       <section id="services" className="section-pad"><div className="container"><h2>Guidance that leads to growth.</h2><p className="section-description">We connect career guidance with personal development, learning and preparation—so students can turn a suitable career choice into a practical plan.</p><div className="services-grid">{services.map(([title, description], index) => <article className="service-card" key={title}><h3><span aria-hidden="true">✦</span> {title}</h3><p>{description}</p><button type="button" className="text-button service-explore" aria-label={`Explore ${title}`} onClick={() => openService(index)}>Explore ↗</button></article>)}</div><Link className="btn btn-blue" href="#contact">Enquire about training ↗</Link></div></section>

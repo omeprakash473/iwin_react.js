@@ -4,6 +4,7 @@ import AuthLayout from '../components/AuthLayout.jsx';
 import Field from '../components/Field.jsx';
 import {signIn} from '../auth/client.js';
 import {navigateTo} from '../auth/AuthContext.jsx';
+import {loginDestination} from '../payments/returnFlow.js';
 export default function Login() {
  const [error,setError]=useState(() => new URLSearchParams(window.location.search).get('logout') === 'unconfirmed' ? 'Signed out of this tab. The server could not confirm sign-out on other devices.' : ''); const [pending,setPending]=useState(false);
  async function submit(event) {
@@ -11,7 +12,7 @@ export default function Login() {
   const form=event.currentTarget;
   const identity=form.elements.identity.value; const password=form.elements.password.value;
   setPending(true);setError('');
-  try {await signIn(identity,password);form.reset();sessionStorage.removeItem('iwin-dashboard-preview');navigateTo('/dashboard');}
+  try {await signIn(identity,password);form.reset();sessionStorage.removeItem('iwin-dashboard-preview');navigateTo(loginDestination(window.location.search));}
   catch(error){setError(error.message);} finally{setPending(false);}
  }
  return <AuthLayout image={import.meta.env.BASE_URL+'assets/login/8f0ea.png'} title="Your progress is exactly where you left it.">

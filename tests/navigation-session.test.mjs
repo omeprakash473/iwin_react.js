@@ -38,3 +38,12 @@ test('signed-in Pages homepage keeps profile with correct repository-prefixed na
  const header=html.match(/<header\b[\s\S]*?<\/header>/)[0];
  assert.match(header,/test_student profile/);assert.match(header,/href="\/iwin_react.js\/dashboard"/);assert.match(header,/href="\/iwin_react.js\/#pathway"/);assert.doesNotMatch(header,/Login ↗/);
 });
+
+test('signed-out payment return requests sign-in and never trusts callback success parameters',async()=>{
+ for(const base of ['/','/iwin_react.js/']) {
+  const html=await renderPage('https://example.com'+base+'payment/return?status=success&account_unlocked=true',false,base);
+  assert.match(html,/Sign in to check your payment/);
+  assert.ok(html.includes('href="'+base+'login?next=payment-return"'));
+  assert.doesNotMatch(html,/Payment confirmed|assessment access is unlocked/);
+ }
+});

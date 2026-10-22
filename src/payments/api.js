@@ -1,8 +1,16 @@
-import {authorizedRequest} from '../auth/client.js';
+import {authorizedRequest,getSessionVersion} from '../auth/client.js';
+let pendingStatus;
 export async function getPaymentStatus() {
- const data=await authorizedRequest('/api/v1/payments/me',undefined,true,'GET');
- if(typeof data?.account_unlocked !== 'boolean' || typeof data?.status !== 'string')throw new Error('The server returned an invalid payment status. Please retry.');
- return data;
+ const version=getSessionVersion();
+ if(pendingStatus?.version===version)return pendingStatus.promise;
+ const read={version};
+ read.promise=(async()=>{
+  const data=await authorizedRequest('/api/v1/payments/me',undefined,true,'GET');
+  if(typeof data?.account_unlocked !== 'boolean' || typeof data?.status !== 'string')throw new Error('The server returned an invalid payment status. Please retry.');
+  return data;
+ })();
+ pendingStatus=read;
+ try{return await read.promise;}finally{if(pendingStatus===read)pendingStatus=null;}
 }
 export function hasPaymentAccess(payment) { return payment?.account_unlocked === true; }
 export function paymentNeedsConfirmation(payment) { return !hasPaymentAccess(payment) && (Boolean(payment?.paid_at) || ['paid','success','successful','completed'].includes(payment?.status?.toLowerCase())); }

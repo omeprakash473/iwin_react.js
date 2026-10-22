@@ -5,7 +5,7 @@ const imgRectangle5 = `${assetPathPrefix}/98f9e.png`;
 const imgRectangle8 = `${assetPathPrefix}/73f57.png`;
 const imgRectangle11 = `${assetPathPrefix}/0bb0d.png`;
 const imgAuthenticStudentMoment = `${assetPathPrefix}/0e600.png`;
-const imgFrontViewMaleStudentGreenCheckeredShirtWearingBlackBackpackHoldingFilesSmilingBlueWallRemovebgPreview1 = `${assetPathPrefix}/0c908.png`;
+const imgFrontViewMaleStudentGreenCheckeredShirtWearingBlackBackpackHoldingFilesSmilingBlueWallRemovebgPreview1 = `${assetPathPrefix}/0c908.webp`;
 const imgPortrait = `${assetPathPrefix}/e4100.png`;
 const imgPortrait1 = `${assetPathPrefix}/e05af.png`;
 const img59687641 = `${assetPathPrefix}/e0530.png`;
@@ -85,40 +85,40 @@ export default function StudentArtwork() {
  }, []);
  return <div className="student-artwork" ref={ref} style={{height: 499 * scale}}><div className="student-artwork-inner" style={{transform: `scale(${scale})`}}><div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="249:1778">
             <div className="col-start-1 ml-[33.27px] mt-0 relative row-start-1 size-[499px]" data-node-id="249:1779" data-name="Vector">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector} />
+              <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector} />
             </div>
             <div className="col-start-1 ml-[415.83px] mt-[8.32px] relative row-start-1 size-[99.8px]" data-node-id="249:1780" data-name="Vector">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector1} />
+              <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector1} />
             </div>
             <div className="col-start-1 ml-[53.23px] mt-[394.21px] relative row-start-1 size-[59.88px]" data-node-id="249:1781" data-name="Vector">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector2} />
+              <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector2} />
             </div>
             <div className="col-start-1 h-[166.333px] ml-[58.22px] mt-[307.72px] relative row-start-1 w-[349.3px]" data-node-id="249:1782" data-name="Vector">
               <div className="absolute inset-[-1.2%_-0.57%]">
-                <img alt="" className="block max-w-none size-full" src={imgVector3} />
+                <img loading="lazy" decoding="async" alt="" className="block max-w-none size-full" src={imgVector3} />
               </div>
             </div>
             <div className="col-start-1 ml-[49.9px] mt-[465.73px] relative row-start-1 size-[16.633px]" data-node-id="249:1783" data-name="Vector">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector4} />
+              <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector4} />
             </div>
             <div className="col-start-1 ml-[166.33px] mt-[316.03px] relative row-start-1 size-[16.633px]" data-node-id="249:1784" data-name="Vector">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector5} />
+              <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector5} />
             </div>
             <div className="col-start-1 ml-[397.54px] mt-[297.74px] relative row-start-1 size-[19.96px]" data-node-id="249:1785" data-name="Vector">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector6} />
+              <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector6} />
             </div>
             <div className="col-start-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-0 mt-[66px] place-items-start relative row-start-1" data-node-id="249:1786" data-name="Badge Career match">
               <div className="col-start-1 h-[63px] ml-0 mt-0 relative row-start-1 w-[189px]" data-node-id="249:1787" data-name="Vector">
                 <div className="absolute inset-[-0.79%_-0.26%]">
-                  <img alt="" className="block max-w-none size-full" src={imgVector7} />
+                  <img loading="lazy" decoding="async" alt="" className="block max-w-none size-full" src={imgVector7} />
                 </div>
               </div>
               <div className="col-start-1 ml-[13.31px] mt-[13.01px] relative row-start-1 size-[36.593px]" data-node-id="249:1788" data-name="Vector">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector8} />
+                <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector8} />
               </div>
               <div className="col-start-1 ml-[25.99px] mt-[25.69px] relative row-start-1 size-[11.227px]" data-node-id="249:1789" data-name="Icon target">
                 <div className="absolute inset-[-6.68%]">
-                  <img alt="" className="block max-w-none size-full" src={imgIconTarget} />
+                  <img loading="lazy" decoding="async" alt="" className="block max-w-none size-full" src={imgIconTarget} />
                 </div>
               </div>
               <p className="[word-break:break-word] col-start-1 font-['DM_Sans'] font-normal h-[13px] leading-[normal] ml-[60px] mt-[16px] not-italic relative row-start-1 text-[#5b6285] text-[13px] w-[87px]" data-node-id="249:1791">
@@ -131,15 +131,15 @@ export default function StudentArtwork() {
             <div className="col-start-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-[449.1px] mt-[156.35px] place-items-start relative row-start-1" data-node-id="249:1793" data-name="Badge Aptitude">
               <div className="col-start-1 h-[63.207px] ml-0 mt-0 relative row-start-1 w-[166.333px]" data-node-id="249:1794" data-name="Vector">
                 <div className="absolute inset-[-0.79%_-0.3%]">
-                  <img alt="" className="block max-w-none size-full" src={imgVector9} />
+                  <img loading="lazy" decoding="async" alt="" className="block max-w-none size-full" src={imgVector9} />
                 </div>
               </div>
               <div className="col-start-1 ml-[13.31px] mt-[13.31px] relative row-start-1 size-[36.593px]" data-node-id="249:1795" data-name="Vector">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector10} />
+                <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector10} />
               </div>
               <div className="col-start-1 h-[10.541px] ml-[26.11px] mt-[25.99px] relative row-start-1 w-[10.978px]" data-node-id="249:1796" data-name="Icon star">
                 <div className="absolute inset-[-7.11%_-6.83%_-7.12%_-6.83%]">
-                  <img alt="" className="block max-w-none size-full" src={imgIconStar} />
+                  <img loading="lazy" decoding="async" alt="" className="block max-w-none size-full" src={imgIconStar} />
                 </div>
               </div>
               <p className="[word-break:break-word] col-start-1 font-['DM_Sans'] font-normal h-[13px] leading-[normal] ml-[59.9px] mt-[15.65px] not-italic relative row-start-1 text-[#5b6285] text-[13px] w-[56px]" data-node-id="249:1798">
@@ -152,17 +152,17 @@ export default function StudentArtwork() {
             <div className="col-start-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-[403.36px] mt-[365.93px] place-items-start relative row-start-1" data-node-id="249:1800" data-name="Badge Progress">
               <div className="col-start-1 h-[71.523px] ml-0 mt-0 relative row-start-1 w-[191.283px]" data-node-id="249:1801" data-name="Vector">
                 <div className="absolute inset-[-0.7%_-0.26%]">
-                  <img alt="" className="block max-w-none size-full" src={imgVector11} />
+                  <img loading="lazy" decoding="async" alt="" className="block max-w-none size-full" src={imgVector11} />
                 </div>
               </div>
               <p className="[word-break:break-word] col-start-1 font-['DM_Sans'] font-normal h-[13px] leading-[normal] ml-[19.64px] mt-[16.07px] not-italic relative row-start-1 text-[#5b6285] text-[13px] w-[115px]" data-node-id="249:1802">
                 Pathway progress
               </p>
               <div className="col-start-1 h-[8.317px] ml-[19.96px] mt-[39.92px] relative row-start-1 w-[151.363px]" data-node-id="249:1803" data-name="Vector">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector12} />
+                <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector12} />
               </div>
               <div className="col-start-1 h-[8.317px] ml-[19.96px] mt-[39.92px] relative row-start-1 w-[91.483px]" data-node-id="249:1804" data-name="Vector">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector13} />
+                <img loading="lazy" decoding="async" alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector13} />
               </div>
               <p className="[word-break:break-word] col-start-1 font-['DM_Sans'] font-bold h-[14px] leading-[normal] ml-[19.64px] mt-[52.07px] not-italic relative row-start-1 text-[#12163a] text-[13px] w-[146px]" data-node-id="249:1805">
                 Stage 4 of 8 · Aptitude
@@ -172,7 +172,7 @@ export default function StudentArtwork() {
               <div className="-scale-y-100 flex-none rotate-180">
                 <div className="h-[404.19px] relative rounded-[208px] w-[345.973px]" data-name="front-view-male-student-green-checkered-shirt-wearing-black-backpack-holding-files-smiling-blue-wall-removebg-preview 1">
                   <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[208px]">
-                    <img alt="" className="absolute h-full left-[-50.96%] max-w-none top-0 w-[175.24%]" src={imgFrontViewMaleStudentGreenCheckeredShirtWearingBlackBackpackHoldingFilesSmilingBlueWallRemovebgPreview1} />
+                    <img loading="lazy" decoding="async" alt="" className="absolute h-full left-[-50.96%] max-w-none top-0 w-[175.24%]" src={imgFrontViewMaleStudentGreenCheckeredShirtWearingBlackBackpackHoldingFilesSmilingBlueWallRemovebgPreview1} />
                   </div>
                 </div>
               </div>

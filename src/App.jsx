@@ -1,18 +1,22 @@
 import {PaymentProvider,usePayment} from './payments/PaymentContext.jsx';
 import { AuthProvider, useAuth, navigateTo } from './auth/AuthContext.jsx';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useLayoutEffect, useState } from 'react';
 import Header from './components/Header.jsx';
 import Landing from './figma/Landing.jsx';
-import Login from './figma/Login.jsx';
-import Dashboard, { DashboardProgress } from './figma/Dashboard.jsx';
-import Account, { ChangePassword } from './figma/Account.jsx';
-import ForgotPassword from './figma/ForgotPassword.jsx';
-import Signup from './figma/Signup.jsx';
-import Checkout from './figma/Checkout.jsx';
 import Success from './figma/Success.jsx';
+import PaymentReturn from './figma/PaymentReturn.jsx';
 import './styles.css';
 
-const screens = { '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success };
+const Login=lazy(()=>import('./figma/Login.jsx'));
+const Dashboard=lazy(()=>import('./figma/Dashboard.jsx'));
+const DashboardProgress=lazy(()=>import('./figma/Dashboard.jsx').then(module=>({default:module.DashboardProgress})));
+const Account=lazy(()=>import('./figma/Account.jsx'));
+const ChangePassword=lazy(()=>import('./figma/Account.jsx').then(module=>({default:module.ChangePassword})));
+const ForgotPassword=lazy(()=>import('./figma/ForgotPassword.jsx'));
+const Signup=lazy(()=>import('./figma/Signup.jsx'));
+const Checkout=lazy(()=>import('./figma/Checkout.jsx'));
+
+const screens = { '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
 
 function routePath(url) {
  const base = import.meta.env.BASE_URL;
@@ -72,5 +76,5 @@ function AppContent() {
   if(paymentPage && session && payment.status==='error')return <><Header/><main className="account-page"><section className="account-card"><h1>Unable to check payment status</h1><p role="alert">{payment.error}</p><p>Your account has not been charged by this check. Please retry to confirm access.</p><button className="btn btn-primary" onClick={()=>payment.refresh().catch(()=>{})}>Retry payment check</button></section></main></>;
   if(paymentPage && session && (payment.status!=='ready' || (requiresPayment && !payment.unlocked) || (routePath(location)==='/checkout'&&payment.unlocked)))return <><Header/><main className="account-page" role="status">Checking your registration payment…</main></>;
   const Screen = screens[routePath(location)] || Landing;
-  return <div onClick={navigate}><Header dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} key={new URL(location).pathname} /><Screen /></div>;
+  return <div onClick={navigate}><Header dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} key={new URL(location).pathname} /><Suspense fallback={<main id="main-content" className="account-page" role="status">Loading page…</main>}><Screen /></Suspense></div>;
 }

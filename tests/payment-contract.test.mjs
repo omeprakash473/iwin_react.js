@@ -23,6 +23,36 @@ test('payment status uses authenticated GET with no request body',async()=>{
  });
  await api.signIn('student','test-password');assert.equal(api.hasPaymentAccess(await api.getPaymentStatus()),false);
 });
+
+test('concurrent payment checks share one request and completed checks are never cached',async()=>{
+ let reads=0,finish;
+ const api=await setup(async(url)=>{
+  if(url.endsWith('/token'))return response(token);
+  reads++;
+  if(reads===1)return new Promise(resolve=>{finish=()=>resolve(response(unpaid));});
+  return response({...unpaid,account_unlocked:true});
+ });
+ await api.signIn('student','test-password');
+ const checks=[api.getPaymentStatus(),api.getPaymentStatus(),api.getPaymentStatus()];
+ assert.equal(reads,1);finish();
+ assert.deepEqual(await Promise.all(checks),[unpaid,unpaid,unpaid]);
+ assert.equal((await api.getPaymentStatus()).account_unlocked,true);assert.equal(reads,2);
+});
+
+test('new account never shares an earlier account payment request',async()=>{
+ let reads=0,finish;
+ const api=await setup(async(url)=>{
+  if(url.endsWith('/token'))return response(token);
+  reads++;
+  if(reads===1)return new Promise(resolve=>{finish=()=>resolve(response({...unpaid,account_unlocked:true}));});
+  return response(unpaid);
+ });
+ await api.signIn('first_student','test-password');
+ const first=api.getPaymentStatus();const rejected=assert.rejects(first,/session changed/);
+ api.clearSession();await api.signIn('second_student','test-password');
+ assert.equal((await api.getPaymentStatus()).account_unlocked,false);
+ finish();await rejected;assert.equal(reads,2);
+});
 test('GET method survives token refresh on an unauthorized payment response',async()=>{
  let reads=0;
  const api=await setup(async(url,options)=>{

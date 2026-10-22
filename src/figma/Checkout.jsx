@@ -5,6 +5,7 @@ import Field from '../components/Field.jsx';
 import {usePayment} from '../payments/PaymentContext.jsx';
 import {createPaymentOrder,paymentNeedsConfirmation} from '../payments/api.js';
 import {loadCashfree,CASHFREE_MODE} from '../payments/cashfree.js';
+import {navigateTo} from '../auth/AuthContext.jsx';
 const benefits=['Career Interest assessment','Attitude assessment after Career is submitted','Your available assessment results'];
 export default function Checkout() {
  const {payment,refresh}=usePayment();
@@ -46,10 +47,10 @@ export default function Checkout() {
    const result=await openCheckoutDialog(sdk,order.payment_session_id,{signal:popupAbort.current.signal});
    popupAbort.current=null;
    if(!mounted.current)return;
+   if(!result?.closed && !result?.error){navigateTo('/payment/return');return;}
    await refresh();
    if(result?.closed){setMessage('Payment window closed. If you have already paid, select Check payment status before trying again.');return;}
    if(result?.error){setError('Payment was not completed. Check payment status before trying again.');return;}
-   setMessage('Confirming your payment…');setPolling(true);
   }catch(error){
    if(!mounted.current)return;
    if(error.code==='already_paid'||error.code==='order_in_progress'){
