@@ -117,9 +117,7 @@ export default function Services() {
           <h2>Guidance that leads to growth.</h2>
 
           <p className="section-description">
-            We connect career guidance with personal development, learning and
-            preparation—so students can turn a suitable career choice into a
-            practical plan.
+            Make it your practical development plan
           </p>
 
           <div className="services-grid">

@@ -249,7 +249,6 @@ export default function Landing() {
       </label>
       {visibleFaqGroups.length > 0 ? visibleFaqGroups.map(({ category, questions }) => (
         <section className="landing-faq-category" key={category}>
-          <h3>{category}</h3>
           <div className="landing-faq-list">
             {questions.map(({ number, question, answer }) => {
               const answerParagraphs = Array.isArray(answer) ? answer : [answer];
