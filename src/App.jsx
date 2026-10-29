@@ -10,9 +10,33 @@ import ForgotPassword from './figma/ForgotPassword.jsx';
 import Signup from './figma/Signup.jsx';
 import Checkout from './figma/Checkout.jsx';
 import Success from './figma/Success.jsx';
+import CookiePolicy from './figma/CookiePolicy.jsx';
+import RefundPolicy from './figma/RefundPolicy.jsx';
+import Faqs from './figma/Faqs.jsx';
+import StudentAssessmentDisclaimer from './figma/StudentAssessmentDisclaimer.jsx';
+import { LegalPage } from './figma/LegalPages.jsx';
 import './styles.css';
 
-const screens = { '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success };
+const screens = {
+  '/': Landing,
+  '/landing': Landing,
+  '/login': Login,
+  '/dashboard': Dashboard,
+  '/dashboard-progress': DashboardProgress,
+  '/profile': Account,
+  '/change-password': ChangePassword,
+  '/forgot-password': ForgotPassword,
+  '/signup': Signup,
+  '/checkout': Checkout,
+  '/success': Success,
+  '/cookie-policy': CookiePolicy,
+  '/refund-policy': RefundPolicy,
+  '/faqs': Faqs,
+  '/terms-of-services': () => <LegalPage page="terms" />,
+  '/privacy-policy': () => <LegalPage page="privacy" />,
+  '/student-assessment-disclaimer': StudentAssessmentDisclaimer,
+  '/school-agreement': () => <LegalPage page="school" />,
+};
 
 function routePath(url) {
  const base = import.meta.env.BASE_URL;
