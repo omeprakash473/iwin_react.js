@@ -1,7 +1,6 @@
 import Services from './Services';
 import Link from '../components/Link.jsx';
 import { useRef, useState } from 'react';
-import StudentArtwork from '../components/StudentArtwork.jsx';
 import Footer from '../components/Footer.jsx';
 import { faqCategories } from './Faqs.jsx';
 
@@ -224,7 +223,7 @@ export default function Landing() {
       <Services />
 
 
-      <section id="parents" className="section-pad parent-section"><div className="container two-column parent-grid"><StudentArtwork /><div><h2>Parents’ concerns </h2><ol className="perspective-list parent-questions" aria-label="Questions and answers for parents">{visibleParentQuestions.map(([question, answer], index) => <li key={question}><span>{parentQuestionPage * parentQuestionsPerPage + index + 1}</span><div><h3>{question}</h3><p>{answer}</p></div></li>)}</ol><nav className="parent-question-pagination" aria-label="Parent questions pagination"><button type="button" className="btn btn-primary" onClick={() => setParentQuestionPage(page => page - 1)} disabled={parentQuestionPage === 0}>← Previous</button><span aria-live="polite">Page {parentQuestionPage + 1} of {parentQuestionPageCount}</span><button type="button" className="btn btn-primary" onClick={() => setParentQuestionPage(page => page + 1)} disabled={parentQuestionPage === parentQuestionPageCount - 1}>Next →</button></nav></div></div></section>
+      <section id="parents" className="section-pad parent-section"><div className="container two-column parent-grid"><img className="parent-concerns-image" src={import.meta.env.BASE_URL + 'assets/brand/parent%20concerns.jpeg'} alt="A parent reflecting on her child's skills and progress" /><div><h2>Parents’ concerns </h2><ol className="perspective-list parent-questions" aria-label="Questions and answers for parents">{visibleParentQuestions.map(([question, answer], index) => <li key={question}><span>{parentQuestionPage * parentQuestionsPerPage + index + 1}</span><div><h3>{question}</h3><p>{answer}</p></div></li>)}</ol><nav className="parent-question-pagination" aria-label="Parent questions pagination"><button type="button" className="btn btn-primary" onClick={() => setParentQuestionPage(page => page - 1)} disabled={parentQuestionPage === 0}>← Previous</button><span aria-live="polite">Page {parentQuestionPage + 1} of {parentQuestionPageCount}</span><button type="button" className="btn btn-primary" onClick={() => setParentQuestionPage(page => page + 1)} disabled={parentQuestionPage === parentQuestionPageCount - 1}>Next →</button></nav></div></div></section>
 
 <section id="assessments" className="section-pad landing-faq-section">
   <div id="faqs" className="container landing-faqs">
@@ -315,7 +314,7 @@ export default function Landing() {
         <div className="school-actions">
           <Link
             className="btn btn-blue"
-            href="mailto:sivaram@i-winlearning.com?subject=School%20support%20enquiry"
+            href="mailto:support@i-winlearning.com?subject=School%20support%20enquiry"
           >
             Discuss Support for Your School
           </Link>
@@ -325,17 +324,13 @@ export default function Landing() {
         </div>
       </div>
 
-      <div className="school-image-placeholder" role="img" aria-label="Placeholder for a school or career guidance photo">
-        <div className="school-image-placeholder-content">
-          <span className="school-image-plus">+</span>
-          <p>Add your school photo here</p>
-          <small>Replace this box with your school or career guidance image</small>
-        </div>
+      <div className="school-image-placeholder">
+        <img src={import.meta.env.BASE_URL + 'assets/brand/cbsc.png'} alt="CBSE-affiliated school" />
       </div>
     </div>
   </div>
 </section>
-      <section id="certifications" className="section-pad"><div className="container two-column certificate-grid"><div><p className="eyebrow">Show your skills</p><h2>A certificate you grow into.</h2><ol className="certificate-steps">{[['Learn', 'Personalised instruction and mentoring'], ['Practise', 'Activities, application and useful feedback'], ['Demonstrate', 'Competency assessment against programme requirements'], ['Celebrate', 'I-WIN Certificate of Competence when requirements are demonstrated']].map(([title, description]) => <li key={title}><h3>{title}</h3><p>{description}</p></li>)}</ol></div><article className="certificate-preview"><p className="certificate-brand">I-WIN <small>Certificate preview</small></p><img src={assets+'44f71.svg'} alt="" /><h3>Certificate of Competence</h3><strong>Your name here</strong><p>Awarded for a completed programme with demonstrated required skills.</p><small>Learning → Practice → Competency assessment → Certificate<br />I-WIN Learning Solutions Private Limited</small></article></div></section>
+      <section id="certifications" className="section-pad"><div className="container two-column certificate-grid"><div><p className="eyebrow">Show your skills</p><h2>A certificate you grow into.</h2><ol className="certificate-steps">{[['Learn', 'Personalised instruction and mentoring'], ['Practise', 'Activities, application and useful feedback'], ['Demonstrate', 'Competency assessment against programme requirements'], ['Celebrate', 'I-WIN Certificate of Competence when requirements are demonstrated']].map(([title, description]) => <li key={title}><h3>{title}</h3><p>{description}</p></li>)}</ol></div><article className="certificate-preview"><img className="certificate-preview-image" src={import.meta.env.BASE_URL + 'assets/brand/iwin%20certificate.png'} alt="I-WIN certificate" /></article></div></section>
     </main>
     <dialog ref={serviceDialog} className="preview-dialog service-dialog" aria-labelledby="service-dialog-title" onClick={event => { if (event.target === event.currentTarget) serviceDialog.current.close(); }}>
       {selectedService !== null && <>
@@ -351,6 +346,6 @@ export default function Landing() {
 
            
       <Footer />
-    </>;
+    </>;           
 }
     

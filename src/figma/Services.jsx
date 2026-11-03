@@ -135,7 +135,7 @@ export default function Services() {
                   aria-label={`Explore ${service.title}`}
                   onClick={() => openService(index)}
                 >
-                  Explore ↗
+                  Explore
                 </button>
               </article>
             ))}

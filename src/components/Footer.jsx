@@ -19,7 +19,7 @@ export default function Footer() {
 </div>
 
 
-      <div><h3>Contact Info</h3><Link href="/#contact">Contact</Link><Link href="mailto:sivaram@i-winlearning.com">sivaram@i-winlearning.com</Link><Link href="tel:+919848052547">+91 98480 52547</Link></div>
+      <div><h3>Contact Info</h3><Link href="/#contact">Contact</Link><Link href="mailto:support@i-winlearning.com">support@i-winlearning.com</Link><Link href="tel:+919848052547">+91 98480 52547</Link></div>
     </div>
     <div className="footer-bottom"><p>© 2027 I-WIN Learning Solutions Private Limited. All rights reserved.</p><div className="social-icons" aria-label="Social channels"><img src={(import.meta.env.BASE_URL + "assets/landing/e0530.png")} alt="Facebook" width="24" height="24" /><img src={(import.meta.env.BASE_URL + "assets/landing/d720b.png")} alt="Instagram" width="24" height="24" /><img src={(import.meta.env.BASE_URL + "assets/landing/9b018.png")} alt="YouTube" width="24" height="24" /><img src={(import.meta.env.BASE_URL + "assets/landing/17e7f.png")} alt="LinkedIn" width="24" height="24" /></div></div>
   </div></footer>;
