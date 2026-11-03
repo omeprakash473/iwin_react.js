@@ -32,7 +32,12 @@ async function request(path, options = {}) {
  const data = await response.json().catch(() => null);
  if (!response.ok) {
   const message = data?.error?.message || 'The request could not be completed. Please try again.';
-  const details = (data?.error?.details || []).map(detail => detail.message).filter(value => typeof value === 'string');
+    const errorDetails = data?.error?.details || data?.detail || [];
+    const details = (Array.isArray(errorDetails) ? errorDetails : []).map(detail => {
+     const field = detail?.field || (Array.isArray(detail?.loc) ? detail.loc.filter(part => part !== 'body').join('.') : '');
+     const message = detail?.message || detail?.msg;
+     return [field, message].filter(Boolean).join(': ');
+    }).filter(Boolean);
   const error = new Error(details.length ? message + ' ' + [...new Set(details)].join(' ') : message);
   error.status = response.status;
   error.code = data?.error?.code;
