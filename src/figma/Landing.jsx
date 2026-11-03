@@ -1,8 +1,12 @@
 import Link from '../components/Link.jsx';
 import React, { useRef, useState } from 'react';
 import Footer from '../components/Footer.jsx';
+import {faqCategories} from './Faqs.jsx';
 const updatedAssets = import.meta.env.BASE_URL + 'assets/landing-v1/';
 const enquiry = 'mailto:support@i-winlearning.com?subject=Career%20assessment%20enquiry';
+
+const allFaqs = faqCategories.flatMap(([, questions]) => questions.map(([question, answer]) => ({question, answer})));
+const faqPageSize = 5;
 
 const assets = (import.meta.env.BASE_URL + 'assets/landing/');
 const parentQuestions = [
@@ -41,6 +45,12 @@ const services = [
 const serviceDetails = [["Students beginning their career discovery journey.",["Reflect on interests, ambitions and everyday experiences.","Create a starting point for personalised guidance."]],["Students exploring career areas and subject choices.",["Explore interests across 16 career domains.","Use your strongest interest areas to begin a guidance conversation."]],["Students who want to strengthen habits, confidence and self-awareness.",["Explore attitudinal traits and personal strengths.","Develop positive habits through reflection, activities and mentoring."]],["Students discovering and developing their aptitude strengths.",["Identify abilities that support different career pathways.","Build relevant skills through instruction and practice."]],["Students who want to understand and improve subject knowledge.",["Identify gaps in concepts and understanding.","Strengthen learning through study, practice and mentoring."]],["Students and families making education or career decisions.",["Connect interests and capabilities with suitable career options.","Discuss subjects, streams and pathways with a counsellor."]],["Students building confidence and skills for everyday life.",["Develop communication, values and positive attitudes.","Practise life skills through guided activities."]],["Students planning studies around their future goals.",["Strengthen concepts and subject understanding.","Organise learning support around a practical study plan."]],["Students preparing for relevant competitive examinations.",["Plan preparation around the examination and student’s needs.","Practise with learning resources, mock tests and mentoring."]],["Learners seeking practical skills for study and work.",["Explore programmes in AI, business IT, digital marketing and finance applications.","Develop practical abilities through learning and application."]],["Students considering courses and colleges in India or overseas.",["Explore suitable courses, institutions and study pathways.","Discuss options that align with interests and future goals."]]];
 
 export default function Landing() {
+  const [faqSearch, setFaqSearch] = useState('');
+  const [faqPage, setFaqPage] = useState(0);
+  const searchTerm = faqSearch.trim().toLocaleLowerCase();
+  const matchingFaqs = allFaqs.filter(({question, answer}) => `${question} ${Array.isArray(answer) ? answer.join(' ') : answer}`.toLocaleLowerCase().includes(searchTerm));
+  const faqPageCount = Math.max(1, Math.ceil(matchingFaqs.length / faqPageSize));
+  const visibleFaqs = matchingFaqs.slice(faqPage * faqPageSize, (faqPage + 1) * faqPageSize);
   const [circularPage, setCircularPage] = useState(0);
   const circularPageCount = 3;
   const [parentQuestionPage, setParentQuestionPage] = useState(0);
@@ -91,15 +101,13 @@ export default function Landing() {
 
       <section id="certifications" className="section-pad certification-section"><img className="certificate-orbit" src={updatedAssets+'34594.svg'} width="499" height="499" alt="" loading="lazy"/><div className="container two-column certificate-grid"><div><p className="eyebrow">Show your skills</p><h2>A certificate you grow into.</h2><ol className="certificate-steps">{[['Learn', 'Personalised instruction and mentoring'], ['Practise', 'Activities, application and useful feedback'], ['Demonstrate', 'Competency assessment against programme requirements'], ['Celebrate', 'I-WIN Certificate of Competence when requirements are demonstrated']].map(([title, description]) => <li key={title}><h3>{title}</h3><p>{description}</p></li>)}</ol></div><img className="certificate-image" src={updatedAssets+'d6faa.png'} width="606" height="428" loading="lazy" decoding="async" alt="I-WIN Certificate of Competence specimen"/><img className="certificate-dot" src={updatedAssets+'3506a.svg'} width="78" height="78" loading="lazy" alt=""/></div></section>
 
-      <section id="faqs" className="faq-section"><div className="container">
-        <div className="faq-heading"><p className="eyebrow">Real students, wider possibilities</p><h2>Clarity can sound like this.</h2></div>
-        <div className="landing-faqs">{[
-          ['Is this a career test?', 'It is a guided discovery journey. I-WIN offers developmental indicators and Career Areas to Explore—not guaranteed recommendations.'],
-          ['Do I pay again for Levels 3 or 4?', 'The Phase 1 discovery bundle includes all six assessments. Phase 2 training is not included. Contact our team about other programme charges.'],
-          ['Are my answers private?', <>Read our <Link href="/privacy-policy">Privacy Policy</Link> for how student information is handled.</>],
-          ['How should families use the report?', 'Use the report to start a conversation about strengths, interests and development. It supports informed guidance rather than a final career decision.'],
-        ].map(([question, answer],index) => <details key={question} open={index === 0}><summary>{question}<img className="faq-plus" src={updatedAssets+'cbb5c.svg'} width="18" height="18" alt=""/><img className="faq-minus" src={updatedAssets+'312b3.svg'} width="18" height="18" alt=""/></summary><p>{answer}</p></details>)}</div>
-        <Link className="btn btn-blue" href="/faqs">View All ↗</Link>
+      <section id="faqs" className="faq-section searchable-faq-section" aria-labelledby="landing-faq-heading"><div className="container">
+        <div className="searchable-faq-heading"><p className="eyebrow">I-WIN Pathway Program</p><h2 id="landing-faq-heading">Frequently asked questions</h2><p>Clear answers for students and parents about assessments, learning, career planning and the I-WIN Pathway.</p></div>
+        <div className="searchable-faq-card">
+          <label className="faq-search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="1.7"/><path d="m16 16 4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></svg><span className="sr-only">Search questions and answers</span><input type="search" value={faqSearch} placeholder="Search questions and answers" aria-controls="landing-faq-results" onChange={event => {setFaqSearch(event.target.value); setFaqPage(0);}}/></label>
+          <div id="landing-faq-results" className="faq-search-results">{visibleFaqs.length ? visibleFaqs.map(({question, answer}, index) => <details className="faq-search-item" key={`${faqPage}-${searchTerm}-${question}`}><summary><span>{faqPage * faqPageSize + index + 1}. {question}</span><span className="faq-toggle-icon" aria-hidden="true"/></summary><div className="faq-search-answer">{(Array.isArray(answer) ? answer : [answer]).map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div></details>) : <p className="faq-no-results">No questions found. Try a different search.</p>}</div>
+          <nav className="faq-pagination" aria-label="FAQ pagination"><button type="button" className="btn btn-primary" aria-controls="landing-faq-results" disabled={faqPage === 0} onClick={() => setFaqPage(page => Math.max(0, page - 1))}>← Previous</button><span role="status" aria-live="polite" aria-atomic="true">Page {faqPage + 1} of {faqPageCount} · {matchingFaqs.length} {matchingFaqs.length === 1 ? 'question' : 'questions'}</span><button type="button" className="btn btn-primary" aria-controls="landing-faq-results" disabled={faqPage >= faqPageCount - 1} onClick={() => setFaqPage(page => Math.min(faqPageCount - 1, page + 1))}>Next →</button></nav>
+        </div>
       </div></section>
     </main>
     <dialog ref={serviceDialog} className="preview-dialog service-dialog" aria-labelledby="service-dialog-title" onClick={event => { if (event.target === event.currentTarget) serviceDialog.current.close(); }}>
