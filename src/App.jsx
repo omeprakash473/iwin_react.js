@@ -6,7 +6,13 @@ import Landing from './figma/Landing.jsx';
 import Success from './figma/Success.jsx';
 import PaymentReturn from './figma/PaymentReturn.jsx';
 import './styles.css';
+import './landing-v1.css';
 
+const LegalPage=lazy(()=>import('./figma/LegalPages.jsx').then(module=>({default:module.LegalPage})));
+const CookiePolicy=lazy(()=>import('./figma/CookiePolicy.jsx'));
+const RefundPolicy=lazy(()=>import('./figma/RefundPolicy.jsx'));
+const Faqs=lazy(()=>import('./figma/Faqs.jsx'));
+const StudentAssessmentDisclaimer=lazy(()=>import('./figma/StudentAssessmentDisclaimer.jsx'));
 const Login=lazy(()=>import('./figma/Login.jsx'));
 const Dashboard=lazy(()=>import('./figma/Dashboard.jsx'));
 const DashboardProgress=lazy(()=>import('./figma/Dashboard.jsx').then(module=>({default:module.DashboardProgress})));
@@ -16,7 +22,7 @@ const ForgotPassword=lazy(()=>import('./figma/ForgotPassword.jsx'));
 const Signup=lazy(()=>import('./figma/Signup.jsx'));
 const Checkout=lazy(()=>import('./figma/Checkout.jsx'));
 
-const screens = { '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
+const screens = { '/cookie-policy':CookiePolicy, '/refund-policy':RefundPolicy, '/faqs':Faqs, '/student-assessment-disclaimer':StudentAssessmentDisclaimer, '/terms-of-services':()=> <LegalPage page="terms"/>, '/privacy-policy':()=> <LegalPage page="privacy"/>, '/school-agreement':()=> <LegalPage page="school"/>, '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
 
 function routePath(url) {
  const base = import.meta.env.BASE_URL;
@@ -76,5 +82,5 @@ function AppContent() {
   if(paymentPage && session && payment.status==='error')return <><Header/><main className="account-page"><section className="account-card"><h1>Unable to check payment status</h1><p role="alert">{payment.error}</p><p>Your account has not been charged by this check. Please retry to confirm access.</p><button className="btn btn-primary" onClick={()=>payment.refresh().catch(()=>{})}>Retry payment check</button></section></main></>;
   if(paymentPage && session && (payment.status!=='ready' || (requiresPayment && !payment.unlocked) || (routePath(location)==='/checkout'&&payment.unlocked)))return <><Header/><main className="account-page" role="status">Checking your registration payment…</main></>;
   const Screen = screens[routePath(location)] || Landing;
-  return <div onClick={navigate}><Header dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} key={new URL(location).pathname} /><Suspense fallback={<main id="main-content" className="account-page" role="status">Loading page…</main>}><Screen /></Suspense></div>;
+  return <div onClick={navigate}><Header landing={Screen === Landing} dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} key={new URL(location).pathname} /><Suspense fallback={<main id="main-content" className="account-page" role="status">Loading page…</main>}><Screen /></Suspense></div>;
 }
