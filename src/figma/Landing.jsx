@@ -1,7 +1,7 @@
 import Link from '../components/Link.jsx';
 import React, { useRef, useState } from 'react';
 import Footer from '../components/Footer.jsx';
-import {faqCategories} from './Faqs.jsx';
+import {faqCategories} from '../data/faqCategories.js';
 const updatedAssets = import.meta.env.BASE_URL + 'assets/landing-v1/';
 const enquiry = 'mailto:support@i-winlearning.com?subject=Career%20assessment%20enquiry';
 
@@ -9,25 +9,7 @@ const allFaqs = faqCategories.flatMap(([, questions]) => questions.map(([questio
 const faqPageSize = 5;
 
 const assets = (import.meta.env.BASE_URL + 'assets/landing/');
-const parentQuestions = [
-  ['Is my child academically strong enough?', 'Subject assessments can identify knowledge gaps, followed by targeted learning resources and progress monitoring.'],
-  ['What is my child really good at?', 'Career interest, aptitude and attitudinal assessments help identify strengths beyond examination marks.'],
-  ['Which career is right for my child?', 'Career-fit analysis considers interests, aptitude, personality attributes and academic competencies to suggest suitable career pathways.'],
-  ['Is my child choosing a career under peer pressure?', 'Assessments and counselling can help distinguish personal interests from external influences.'],
-  ['Will my child succeed in JEE, NEET, CUET or other examinations?', 'Structured preparation, practice tests, mock examinations and performance analytics can support exam readiness, without guaranteeing results.'],
-  ['My child studies hard but does not get good marks. Why?', 'Learning assessments can help identify conceptual weaknesses and areas that may need additional practice.'],
-  ['My child lacks confidence or communication skills. What can help?', 'Attitudinal and communication assessments can identify development priorities and guide improvement activities.'],
-  ['My child spends too much time on the mobile phone. What can I do?', 'Structured digital learning assignments and progress dashboards can encourage more purposeful screen time.'],
-  ["How can I monitor my child's progress?", 'Parent dashboards can provide visibility into learning progress, assessment outcomes and areas needing attention.'],
-  ['Are we spending money on the right coaching and tuition?', 'Gap-based recommendations can help families prioritise educational support rather than relying only on generalised coaching.'],
-  ['What if my child does not qualify for NEET or JEE?', "Career guidance can introduce alternative courses, professional pathways and institutions aligned with the student's profile."],
-  ['Will my child get a good job and become financially independent?', 'Early career awareness, capability development and educational planning can help students prepare for future opportunities, without guaranteeing employment.'],
-  ["We want the best for our child, but don't know which courses, skills and careers will be relevant.", 'I-WIN provides career information, educational pathways and guidance as the student progresses.'],
-  ['My child already goes to tuition. Why do we need I-WIN?', 'Tuition primarily addresses subject learning. I-WIN also assesses interests, aptitude, personal development and career fit, while supporting academics.'],
-  ['Can you guarantee better marks?', 'No marks can be guaranteed. I-WIN can help identify learning gaps, recommend targeted practice and measure progress.'],
-  ["Will this increase my child's workload?", 'The program is intended to complement existing studies through prioritised, manageable learning activities.'],
-  ['Will the assessment label my child as weak?', 'No. Reports should describe strengths and developmental opportunities, not permanently label or restrict a child.'],
-];
+import {parentQuestions} from '../data/parentQuestions.js';
 const services = [
   ['Student Profiling', 'Build your unique profile. Explore your interests, daily life, passions and goals to support personalised career guidance.'],
   ['Career Interest Assessment', 'Explore 16 career domains through approximately 100 questions and discover your top three areas of interest.'],
@@ -41,6 +23,8 @@ const services = [
   ['Skills Development Programs', 'Build practical abilities in AI applications, business IT, digital marketing, accounting and finance applications.'],
   ['Guidance for Higher Studies', 'Explore suitable courses, colleges and universities in India and overseas, including international study pathways.'],
 ];
+
+const serviceRoutes = {0:'/student-profile',1:'/career-interest-assessment',2:'/personality-assessment',3:'/aptitude-assessment-development',4:'/subject-knowledge-assessment',5:'/career-guidance',8:'/competitive-exam-preparation',9:'/skills-development-programs',10:'/guidance-for-higher-studies'};
 
 const serviceDetails = [["Students beginning their career discovery journey.",["Reflect on interests, ambitions and everyday experiences.","Create a starting point for personalised guidance."]],["Students exploring career areas and subject choices.",["Explore interests across 16 career domains.","Use your strongest interest areas to begin a guidance conversation."]],["Students who want to strengthen habits, confidence and self-awareness.",["Explore attitudinal traits and personal strengths.","Develop positive habits through reflection, activities and mentoring."]],["Students discovering and developing their aptitude strengths.",["Identify abilities that support different career pathways.","Build relevant skills through instruction and practice."]],["Students who want to understand and improve subject knowledge.",["Identify gaps in concepts and understanding.","Strengthen learning through study, practice and mentoring."]],["Students and families making education or career decisions.",["Connect interests and capabilities with suitable career options.","Discuss subjects, streams and pathways with a counsellor."]],["Students building confidence and skills for everyday life.",["Develop communication, values and positive attitudes.","Practise life skills through guided activities."]],["Students planning studies around their future goals.",["Strengthen concepts and subject understanding.","Organise learning support around a practical study plan."]],["Students preparing for relevant competitive examinations.",["Plan preparation around the examination and student’s needs.","Practise with learning resources, mock tests and mentoring."]],["Learners seeking practical skills for study and work.",["Explore programmes in AI, business IT, digital marketing and finance applications.","Develop practical abilities through learning and application."]],["Students considering courses and colleges in India or overseas.",["Explore suitable courses, institutions and study pathways.","Discuss options that align with interests and future goals."]]];
 
@@ -85,7 +69,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="services" className="section-pad services-section"><div className="container"><h2>Guidance that leads to growth.</h2><p className="section-description">We connect career guidance with personal development, learning and preparation — so students can turn a suitable career choice into a practical plan.</p><div className="services-grid">{[1,0,2,3,4,5,8,9,10].map(index => { const [title, description] = services[index]; return <article id={index === 1 ? "assessments" : undefined} className="service-card" key={title}><h3><span aria-hidden="true">✦</span> {index === 9 ? <>Skills Development<br/>Programs</> : title}</h3><p>{description}</p><button type="button" className="text-button service-explore" aria-label={`Explore ${title}`} onClick={() => openService(index)}>Explore</button></article>; })}</div><Link className="btn btn-blue" href={enquiry}>Enquire about training ↗</Link></div></section>
+      <section id="services" className="section-pad services-section"><div className="container"><h2>Guidance that leads to growth.</h2><p className="section-description">We connect career guidance with personal development, learning and preparation — so students can turn a suitable career choice into a practical plan.</p><div className="services-grid">{[1,0,2,3,4,5,8,9,10].map(index => { const [title, description] = services[index]; return <article id={index === 1 ? "assessments" : undefined} className="service-card" key={title}><h3><span aria-hidden="true">✦</span> {index === 9 ? <>Skills Development<br/>Programs</> : title}</h3><p>{description}</p>{serviceRoutes[index] ? <Link className="text-button service-explore" href={serviceRoutes[index]} aria-label={`Explore ${title}`}>Explore</Link> : <button type="button" className="text-button service-explore" aria-label={`Explore ${title}`} onClick={() => openService(index)}>Explore</button>}</article>; })}</div><Link className="btn btn-blue" href={enquiry}>Enquire about training ↗</Link></div></section>
 
       <section id="pathway" className="section-pad parent-section"><span id="parents" className="anchor-target"/><div className="container two-column parent-grid"><img className="parent-questions-image" src={updatedAssets+'parent-questions.jpg'} width="1536" height="1024" loading="lazy" decoding="async" alt="A parent considering her child’s strengths, progress and academic results"/><div><h2>Parents’ concerns</h2><ol className="perspective-list parent-questions" start={parentQuestionPage * parentQuestionsPerPage + 1} aria-label="Questions and answers for parents">{visibleParentQuestions.map(([question, answer], index) => <li key={question}><span className="parent-question-number" aria-hidden="true">{parentQuestionPage * parentQuestionsPerPage + index + 1}</span><div><h3>{question}</h3><p>{answer}</p></div></li>)}</ol><nav className="parent-question-pagination" aria-label="Parent questions pagination"><button type="button" className="btn btn-primary" onClick={() => setParentQuestionPage(page => Math.max(0, page - 1))} disabled={parentQuestionPage === 0}>← Previous</button><span role="status" aria-live="polite" aria-atomic="true">Page {parentQuestionPage + 1} of {parentQuestionPageCount}</span><button type="button" className="btn btn-primary" onClick={() => setParentQuestionPage(page => Math.min(parentQuestionPageCount - 1, page + 1))} disabled={parentQuestionPage === parentQuestionPageCount - 1}>Next →</button></nav></div></div></section>
 

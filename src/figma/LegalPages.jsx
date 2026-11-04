@@ -1,3 +1,4 @@
+import InformationPage from '../components/InformationPage.jsx';
 import Link from '../components/Link.jsx';
 import schoolAgreement from './school-agreement.js';
 
@@ -220,9 +221,8 @@ export function LegalPage({ page }) {
     : [];
 
   return (
-    <main id="main-content" className="account-page">
-      <article className="account-card policy-card">
-        <Link href="/">← Back to home</Link>
+    <InformationPage title={page === 'school' ? 'School Agreement' : 'Terms and Conditions'} description={page === 'school' ? 'Institutional data processing agreement for the I-WIN Pathway Program.' : 'Terms governing access to and use of I-WIN services.'}>
+      <article className="information-article">
         {page === 'school' ? (
           <div className="school-agreement-content">
             {agreementBlocks.map((block, index) => {
@@ -233,8 +233,8 @@ export function LegalPage({ page }) {
               const tableRows = lines.filter(line => /^\|.*\|$/.test(line));
 
               if (heading) {
-                const Heading = heading[1].length === 1 ? 'h1' : heading[1].length === 2 ? 'h2' : 'h3';
-                return <Heading key={index}>{heading[2]}</Heading>;
+                const Heading = heading[1].length <= 2 ? 'h2' : 'h3';
+                return <Heading key={index} data-toc-exclude={heading[1].length === 1 ? true : undefined}>{heading[2]}</Heading>;
               }
 
               if (text === '---') {
@@ -266,9 +266,8 @@ export function LegalPage({ page }) {
           </div>
         ) : (
           <>
-            <div className="form-heading">
-              <p className="eyebrow">{content.eyebrow}</p>
-              <h1>{page === 'terms' ? 'Terms and Conditions of Use' : content.title}</h1>
+            <div className="information-document-meta">
+              <h2 data-toc-exclude>{page === 'terms' ? 'Terms and Conditions of Use' : content.title}</h2>
               <p>{content.intro}</p>
               {page === 'terms' && <p><strong>I-WIN Learning Solutions Private Limited</strong></p>}
               {page === 'terms' && <p>Website: <a href="https://www.i-winlearning.com">www.i-winlearning.com</a></p>}
@@ -286,7 +285,7 @@ export function LegalPage({ page }) {
           Contact: <a href="mailto:sivaram@i-winlearning.com">sivaram@i-winlearning.com</a>
         </p>}
       </article>
-    </main>
+    </InformationPage>
   );
 }
 

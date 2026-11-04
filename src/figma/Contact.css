@@ -1,0 +1,27 @@
+/* Contact: Figma 430:1853. Approved shared logo and footer are reused. */
+.information-contact{font-family:'DM Sans Landing','DM Sans',sans-serif;color:#50555b;font-optical-sizing:none;font-variation-settings:'opsz' 9}
+.information-contact .information-container{width:calc(100% - 160px);max-width:1280px;margin-inline:auto}
+.information-contact .information-hero{background:#eff4ff;padding:32px 0}
+.information-contact .information-breadcrumb{font-size:13px;line-height:17px;margin-bottom:28px}
+.information-contact .information-breadcrumb a:hover{text-decoration:underline}
+.information-contact .information-eyebrow{color:#2453eb;font-size:11px;font-weight:700;line-height:14px;text-transform:uppercase;margin-bottom:28px;font-variation-settings:'opsz' 14}
+.information-contact .information-hero h1{font-size:40px;line-height:52px;font-weight:700;color:#101566;letter-spacing:0;margin:0 0 24px;font-variation-settings:'opsz' 14}
+.information-contact .information-hero>.information-container>p:last-child{font-size:16px;line-height:21px}
+.information-contact .contact-document{padding-block:64px;display:grid;grid-template-columns:162px 0 minmax(0,1fr);gap:35px;align-items:start}
+.information-contact .information-contents{font-size:12px;line-height:18px;white-space:nowrap}
+.information-contact .information-contents h2{font-size:11px;line-height:14px;font-weight:700;letter-spacing:0;text-transform:uppercase;color:#50555b;margin:0 0 19px}
+.information-contact .information-contents>a{display:block;text-transform:uppercase;margin-bottom:18px}
+.information-contact .information-contents p{margin:0 0 18px}
+.information-contact .information-contents a:hover{color:#101566;text-decoration:underline}
+.information-contact .contact-document-divider{display:block;width:1px;height:654px;max-width:none}
+.information-contact .contact-document-content{max-width:775px;min-width:0;font-size:16px;line-height:25.6px}
+.information-contact .contact-document-content h2{font-size:22px;line-height:29px;letter-spacing:0;font-weight:700;text-transform:uppercase;color:#101566;margin:0 0 23px;font-variation-settings:'opsz' 14}
+.information-contact .contact-document-content p{margin:0 0 12px}
+.information-contact .contact-document-content section+section{margin-top:30px}
+.information-contact .contact-document-content a:hover{text-decoration:underline}
+.information-contact address{font-style:normal}
+.information-contact .privacy-officer{font-size:22px;line-height:30px;font-weight:700;color:#101566;margin-top:41px;font-variation-settings:'opsz' 14}
+.information-contact #registered-office{margin-top:40px}
+.information-contact .landing-v1-footer{background:#f5f5f5}
+@media(max-width:1000px){.information-contact .information-container{width:calc(100% - 64px)}.information-contact .contact-document{grid-template-columns:145px 1px minmax(0,1fr);gap:24px}.information-contact .information-contents{overflow-wrap:anywhere}}
+@media(max-width:640px){.information-contact .information-container{width:calc(100% - 40px)}.information-contact .information-hero h1{font-size:34px;line-height:1.2}.information-contact .contact-document{grid-template-columns:minmax(0,1fr);padding-block:40px;gap:32px}.information-contact .information-contents{padding-bottom:20px;border-bottom:1px solid #d6e2f5}.information-contact .contact-document-divider{display:none}.information-contact .contact-document-content h2,.information-contact .privacy-officer{font-size:20px}.information-contact .privacy-officer{overflow-wrap:anywhere}.information-contact .contact-document-content{font-size:16px}}

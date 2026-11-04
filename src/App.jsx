@@ -8,6 +8,15 @@ import PaymentReturn from './figma/PaymentReturn.jsx';
 import './styles.css';
 import './landing-v1.css';
 
+const AssessmentService=lazy(()=>import('./figma/AssessmentService.jsx'));
+const SkillsDevelopment=lazy(()=>import('./figma/SkillsDevelopment.jsx'));
+const GuidanceService=lazy(()=>import('./figma/GuidanceService.jsx'));
+const serviceScreens = { '/career-guidance':()=> <GuidanceService service="career"/>, '/competitive-exam-preparation':()=> <GuidanceService service="exams"/>, '/guidance-for-higher-studies':()=> <GuidanceService service="studies"/>, '/personality-assessment':()=> <AssessmentService assessment="personality"/>, '/aptitude-assessment-development':()=> <AssessmentService assessment="aptitude"/>, '/subject-knowledge-assessment':()=> <AssessmentService assessment="subject"/>, '/student-profile':()=> <AssessmentService assessment="student"/>, '/communication-assessment':()=> <AssessmentService assessment="communication"/>, '/skills-development-programs':SkillsDevelopment };
+const CareerInterestAssessment=lazy(()=>import('./figma/CareerInterestAssessment.jsx'));
+const AboutUs=lazy(()=>import('./figma/AboutUs.jsx'));
+const PrivacyPolicy=lazy(()=>import('./figma/PrivacyPolicy.jsx'));
+const ParentsConcerns=lazy(()=>import('./figma/ParentsConcerns.jsx'));
+const Contact=lazy(()=>import('./figma/Contact.jsx'));
 const LegalPage=lazy(()=>import('./figma/LegalPages.jsx').then(module=>({default:module.LegalPage})));
 const CookiePolicy=lazy(()=>import('./figma/CookiePolicy.jsx'));
 const RefundPolicy=lazy(()=>import('./figma/RefundPolicy.jsx'));
@@ -22,7 +31,7 @@ const ForgotPassword=lazy(()=>import('./figma/ForgotPassword.jsx'));
 const Signup=lazy(()=>import('./figma/Signup.jsx'));
 const Checkout=lazy(()=>import('./figma/Checkout.jsx'));
 
-const screens = { '/cookie-policy':CookiePolicy, '/refund-policy':RefundPolicy, '/faqs':Faqs, '/student-assessment-disclaimer':StudentAssessmentDisclaimer, '/terms-of-services':()=> <LegalPage page="terms"/>, '/privacy-policy':()=> <LegalPage page="privacy"/>, '/school-agreement':()=> <LegalPage page="school"/>, '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
+const screens = { ...serviceScreens, '/career-interest-assessment':CareerInterestAssessment, '/about-us':AboutUs, '/about':AboutUs, '/parents-concerns':ParentsConcerns, '/parents':ParentsConcerns, '/terms-and-conditions':()=> <LegalPage page="terms"/>, '/contact':Contact, '/contact-us':Contact, '/cookie-policy':CookiePolicy, '/refund-policy':RefundPolicy, '/faqs':Faqs, '/student-assessment-disclaimer':StudentAssessmentDisclaimer, '/terms-of-services':()=> <LegalPage page="terms"/>, '/privacy-policy':PrivacyPolicy, '/school-agreement':()=> <LegalPage page="school"/>, '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
 
 function routePath(url) {
  const base = import.meta.env.BASE_URL;
@@ -82,5 +91,5 @@ function AppContent() {
   if(paymentPage && session && payment.status==='error')return <><Header/><main className="account-page"><section className="account-card"><h1>Unable to check payment status</h1><p role="alert">{payment.error}</p><p>Your account has not been charged by this check. Please retry to confirm access.</p><button className="btn btn-primary" onClick={()=>payment.refresh().catch(()=>{})}>Retry payment check</button></section></main></>;
   if(paymentPage && session && (payment.status!=='ready' || (requiresPayment && !payment.unlocked) || (routePath(location)==='/checkout'&&payment.unlocked)))return <><Header/><main className="account-page" role="status">Checking your registration payment…</main></>;
   const Screen = screens[routePath(location)] || Landing;
-  return <div onClick={navigate}><Header landing={Screen === Landing} dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} key={new URL(location).pathname} /><Suspense fallback={<main id="main-content" className="account-page" role="status">Loading page…</main>}><Screen /></Suspense></div>;
+  return <div onClick={navigate}><Header landing={Screen === Landing || Screen === CareerInterestAssessment || Boolean(serviceScreens[routePath(location)]) || ['/contact','/contact-us','/about-us','/about','/parents-concerns','/parents','/terms-and-conditions','/terms-of-services','/privacy-policy','/refund-policy','/cookie-policy','/faqs','/school-agreement','/student-assessment-disclaimer'].includes(routePath(location))} dashboardHome={(routePath(location) === '/dashboard-progress' || sessionStorage.getItem('iwin-dashboard-preview') === '1') ? '/dashboard-progress' : '/dashboard'} key={new URL(location).pathname} /><Suspense fallback={<main id="main-content" className="account-page" role="status">Loading page…</main>}><Screen /></Suspense></div>;
 }

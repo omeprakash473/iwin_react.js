@@ -1,3 +1,4 @@
+import InformationPage from '../components/InformationPage.jsx';
 import Link from '../components/Link.jsx';
 
 const refundSchedule = [
@@ -206,12 +207,10 @@ function renderPolicyParagraph(paragraph) {
 
 export default function RefundPolicy() {
   return (
-    <main id="main-content" className="account-page">
-      <article className="account-card policy-card refund-policy">
-        <Link href="/">← Back to home</Link>
-        <header className="form-heading">
-          <p className="eyebrow">I-WIN Pathway Program</p>
-          <h1>Fee Refund and Cancellation Policy</h1>
+    <InformationPage title="Refund Policy" description="Information about fees, cancellations and refund requests.">
+      <article className="information-article refund-policy">
+        <header className="information-document-meta">
+          <h2 data-toc-exclude>Fee Refund and Cancellation Policy</h2>
           <p><strong>I-WIN Learning Solutions Private Limited</strong></p>
           <p>Website: <a href="https://www.i-winlearning.com">www.i-winlearning.com</a></p>
           <p>Effective Date: October 23rd 2026</p>
@@ -251,7 +250,7 @@ export default function RefundPolicy() {
           <p>© 2026 I-WIN Learning Solutions Private Limited. All Rights Reserved.</p>
         </footer>
       </article>
-    </main>
+    </InformationPage>
   );
 }
 

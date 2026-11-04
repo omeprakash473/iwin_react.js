@@ -1,3 +1,4 @@
+import InformationPage from '../components/InformationPage.jsx';
 import Link from '../components/Link.jsx';
 
 const policySections = [
@@ -178,12 +179,10 @@ const policySections = [
 
 export default function CookiePolicy() {
   return (
-    <main id="main-content" className="account-page">
-      <article className="account-card policy-card cookie-policy">
-        <Link href="/">← Back to home</Link>
-        <header className="form-heading">
-          <p className="eyebrow">I-WIN Pathway Program</p>
-          <h1>Cookie Policy</h1>
+    <InformationPage title="Cookie Policy" description="How cookies and similar technologies support your I-WIN experience.">
+      <article className="information-article cookie-policy">
+        <header className="information-document-meta">
+          <h2 data-toc-exclude>Cookie Policy</h2>
           <p><strong>I-WIN Learning Solutions Private Limited</strong></p>
           <p>Website: <a href="http://www.i-win.in/">www.i-winlearning.com</a></p>
           <p>Effective Date: October 23rd 2026</p>
@@ -216,7 +215,7 @@ export default function CookiePolicy() {
           <p>© 2026 I-WIN Learning Solutions Private Limited. All Rights Reserved.</p>
         </footer>
       </article>
-    </main>
+    </InformationPage>
   );
 }
 

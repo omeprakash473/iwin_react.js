@@ -1,3 +1,4 @@
+import InformationPage from '../components/InformationPage.jsx';
 import Link from '../components/Link.jsx';
 
 const sections = [
@@ -214,12 +215,10 @@ const sections = [
 
 export default function StudentAssessmentDisclaimer() {
   return (
-    <main id="main-content" className="account-page">
-      <article className="account-card policy-card assessment-disclaimer">
-        <Link href="/">← Back to home</Link>
-        <header className="form-heading">
-          <p className="eyebrow">I-WIN Pathway Program</p>
-          <h1>Student Assessment Disclaimer</h1>
+    <InformationPage title="Student Assessment Disclaimer" description="Understand the purpose, scope and responsible use of I-WIN assessments.">
+      <article className="information-article assessment-disclaimer">
+        <header className="information-document-meta">
+          <h2 data-toc-exclude>Student Assessment Disclaimer</h2>
           <p><strong>I-WIN Learning Solutions Private Limited</strong></p>
           <p>Website: <a href="https://www.i-win.in">www.i-win.in</a></p>
           <p>Effective Date: October 23rd 2026</p>
@@ -250,7 +249,7 @@ export default function StudentAssessmentDisclaimer() {
           <p>© 2026 I-WIN Learning Solutions Private Limited. All Rights Reserved.</p>
         </footer>
       </article>
-    </main>
+    </InformationPage>
   );
 }
 
