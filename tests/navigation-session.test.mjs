@@ -33,6 +33,15 @@ test('signed-out homepage shows Login and Join, and protected routes render no p
  assert.match(html,/Login ↗/);assert.match(html,/Join ↗/);assert.doesNotMatch(html,/test_student profile/);
  for(const route of ['/dashboard','/dashboard-progress','/profile','/change-password','/checkout','/success'])assert.equal(await renderPage('http://localhost'+route,false),'');
 });
+
+test('signed-in dashboard renders its header without waiting for a payment response',async()=>{
+ for(const route of ['/dashboard','/dashboard-progress']) {
+  const html=await renderPage('http://localhost'+route,true);
+  assert.match(html,/student-dashboard-header/);
+  assert.match(html,/Search assessments and services/);
+  assert.doesNotMatch(html,/Checking your registration payment|Complete your registration/);
+ }
+});
 test('signed-in Pages homepage keeps profile with correct repository-prefixed navigation',async()=>{
  const html=await renderPage('https://example.github.io/iwin_react.js/#pathway',true,'/iwin_react.js/');
  const header=html.match(/<header\b[\s\S]*?<\/header>/)[0];

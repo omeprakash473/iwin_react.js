@@ -78,17 +78,76 @@ test('registration sends only documented fields with a numeric class and does no
  const client=await setup(async(url,options)=>{
   assert.ok(url.endsWith('/api/v1/auth/register'));
   assert.equal(options.headers['Content-Type'],'application/json');
-  assert.deepEqual(JSON.parse(options.body),{username:'student_8',email:'student@example.com',password:'test-password',class_standard:8});
+  assert.deepEqual(JSON.parse(options.body),{username:'student_8',email:'student@example.com',password:'test-password',class_standard:8,board:'cbse'});
   return json({id:'test-user',username:'student_8',email:'student@example.com',created_at:'2026-10-19T00:00:00Z'},201);
  });
- const user=await client.registerStudent({username:' student_8 ',email:' student@example.com ',password:'test-password',class_standard:'8',phone:'1234567890',city:'Test city'});
+ const user=await client.registerStudent({username:' student_8 ',email:' student@example.com ',password:'test-password',class_standard:'8',board:'cbse',subjects:['mathematics','physics','chemistry'],phone:'1234567890',city:'Test city'});
  assert.equal(user.username,'student_8');assert.equal(client.getSession(),null);
 });
+test('state board registration keeps four selected subjects and exact API values',async()=>{
+ const subjects=['accountancy','economics','computer_science','business_studies'];
+ const client=await setup(async(url,options)=>{
+  assert.ok(url.endsWith('/auth/register'));
+  const body=JSON.parse(options.body);
+  assert.equal(body.board,'state');assert.deepEqual(body.subjects,subjects);
+  assert.equal(body.class_standard,11);
+  return json({username:'student_11'},201);
+ });
+ await client.registerStudent({username:'student_11',email:'test@example.com',password:'test-password',class_standard:'11',board:'state',subjects});
+ assert.equal(client.getSession(),null);
+});
+
+test('classes 8–10 omit subjects, including stale choices, while keeping board required',async()=>{
+ let calls=0;
+ const client=await setup(async(url,options)=>{
+  calls++;
+  const body=JSON.parse(options.body);
+  assert.ok([8,9,10].includes(body.class_standard));
+  assert.equal(body.board,'state');
+  assert.equal(Object.hasOwn(body,'subjects'),false);
+  return json({username:'student'},201);
+ });
+ for(const class_standard of [8,'9',10]) {
+  const base={username:'student',email:'test@example.com',password:'test-password',class_standard,board:'state'};
+  await client.registerStudent(base);
+  await client.registerStudent({...base,subjects:['mathematics','physics','chemistry']});
+  await assert.rejects(client.registerStudent({...base,board:''}),/select CBSE or State Board/);
+ }
+ assert.equal(calls,6);
+});
+
+test('classes 11 and 12 require subjects and accept three valid choices',async()=>{
+ let calls=0;
+ const client=await setup(async(url,options)=>{calls++;assert.deepEqual(JSON.parse(options.body).subjects,['mathematics','physics','chemistry']);return json({username:'student'},201);});
+ for(const class_standard of [11,'12']) {
+  const base={username:'student',email:'test@example.com',password:'test-password',class_standard,board:'cbse'};
+  await assert.rejects(client.registerStudent(base),/at least 3/);
+  await client.registerStudent({...base,subjects:['mathematics','physics','chemistry']});
+ }
+ assert.equal(calls,2);
+});
+
+test('registration rejects missing boards and invalid subject selections before sending a request',async()=>{
+ let calls=0;
+ const client=await setup(async()=>{calls++;return json({});});
+ const base={username:'student_11',email:'test@example.com',password:'test-password',class_standard:11,board:'cbse',subjects:['mathematics','physics','chemistry']};
+ for(const [patch,message] of [
+  [{board:undefined},/select CBSE or State Board/],
+  [{board:'other'},/select CBSE or State Board/],
+  [{subjects:undefined},/at least 3/],
+  [{subjects:['mathematics','physics']},/at least 3/],
+  [{subjects:['mathematics','physics','chemistry','biology','english']},/no more than 4/],
+  [{subjects:['mathematics','mathematics','physics']},/different subjects/],
+  [{subjects:['mathematics','physics','CS']},/available choices/],
+ ]) await assert.rejects(client.registerStudent({...base,...patch}),message);
+ assert.equal(calls,0);
+});
+
 test('duplicate account and invalid registration fields surface backend errors',async()=>{
  const client=await setup(async()=>json({error:{message:'Username or email already taken',details:[]}},409));
- await assert.rejects(client.registerStudent({username:'student',email:'student@example.com',password:'test-password',class_standard:8}),/already taken/);
+ await assert.rejects(client.registerStudent({username:'student',email:'student@example.com',password:'test-password',class_standard:8,board:'cbse',subjects:['mathematics','physics','chemistry']}),/already taken/);
  globalThis.fetch=async()=>json({error:{message:'Some fields are invalid.',details:[{field:'body.class_standard',message:'Class must be between 8 and 12'}]}},422);
- await assert.rejects(client.registerStudent({username:'student',email:'student@example.com',password:'test-password',class_standard:13}),/Class must be between 8 and 12/);
+ await assert.rejects(client.registerStudent({username:'student',email:'student@example.com',password:'test-password',class_standard:13,board:'state',subjects:['accountancy','economics','commerce']}),/Class must be between 8 and 12/);
  assert.equal(client.getSession(),null);
 });
 test('late login response cannot sign a user back in after logout',async()=>{

@@ -14,13 +14,15 @@ Local development proxies /backend to that gateway using Vite. Set VITE_API_BASE
 
 Sessions and refresh tokens are kept in sessionStorage for the current tab; passwords are never persisted. Existing preview authentication is removed. Dashboard and account routes now require sign-in. Dashboard progress and profile saving remain previews pending their backend contracts. Forgot-password and Google sign-in APIs are not supplied.
 
-The auth registration contract accepts only username, email, password and class_standard (8–12). Sign up now collects these four supported fields. Name, phone and city will need the separate profile service before they can be collected and saved.
+Registration sends username, email, password, class_standard (8–12) and board (cbse/state). Classes 11–12 also select 3–4 subjects from the Swagger list. Classes 8–10 do not see or send subjects. Both boards use the shared subject list until board-specific groups are supplied. Name, phone and city need the separate profile service before they can be collected and saved.
 
 Production CORS must allow https://omeprakash473.github.io. Development direct API calls from http://127.0.0.1:5173 currently fail CORS; npm run dev uses the proxy instead. No real-account successful login or password change was performed during development.
 
 ## Payment flow
 
-Sign up → Login → server payment check → unpaid users go to /checkout; account_unlocked=true users go to /dashboard. Direct dashboard and success URLs require both authentication and backend payment confirmation. Profile and password pages remain accessible before payment.
+Sign up → Login → Dashboard, including unpaid accounts. The dashboard remains visible while a background payment check is loading or fails. Career Interest → Start refreshes backend payment status: unpaid accounts go to /checkout; account_unlocked=true accounts bypass checkout and open the existing assessment preview. No questions or assessment progress are recorded by that preview; assessment-taking integration is still pending. Other assessment cards and reports remain locked. The dashboard no longer simulates a completed assessment through /dashboard-progress.
+
+Checkout redirects an already-paid account to /dashboard?career=start. Successful payment return offers Continue to Career Interest, and only backend-confirmed access can open the assessment preview. The success page remains protected by authentication and payment confirmation. Profile and password pages remain accessible before payment.
 
 GET /api/v1/payments/me is authenticated and uncached. A paid timestamp without account unlock waits for backend synchronization; it does not launch another payment. POST /api/v1/payments/orders sends only a validated phone number. The backend owns the amount, currency, identity, order reuse and Cashfree credentials. The client verifies INR 500 before opening checkout.
 
@@ -32,6 +34,12 @@ SDK reference: https://www.cashfree.com/devstudio/preview/pg/web/popupCheckout
 
 No real transaction was executed during integration. Automated payment tests mock API responses. The development browser environment was unavailable for a visual checkout test.
 
+## Local design preview
+
+On a Vite development build at localhost or 127.0.0.1, signed-in users see “Preview payment success · local demo” below the checkout payment button. It opens a clearly labelled simulated success dialog, then the demo dashboard. Career Interest → Start opens `/assessment/career-interest` with three Figma sample questions: single choice, multiple choice (with exclusive “None of these”), and image choice. Back/Next preserve selections; Pause returns to the dashboard and re-entry offers a resume popup. Finish demo requires all three questions and shows a completion popup, then marks Career Interest complete only in the demo dashboard and makes the remaining five cards available. Question counts reflect the three-question sample and the preview is untimed. Other assessment and report screens remain labelled placeholders. Preview controls can also select 0/6, 1/6 and 6/6 design states. No payment, attempt, answers or results are submitted by these controls. State exists only in React memory, is scoped to the signed-in session, and clears on reload, exit or sign-out. Production builds exclude the sample-question screen and LAN/staging/public hosts do not enable the preview. Real payment access checks are unchanged.
+
 ## Payment return page
+
+In the local dashboard preview, the Locked buttons on Personal Data, Aptitude, Subject, Communication and Attitude open the Figma prerequisite guidance dialog until Career Interest is completed. The dialog names the selected assessment and shows the selected sample-response count; Continue resumes the saved question without a second resume dialog, while Dashboard or Close dismisses it. This does not change backend assessment permissions.
 
 `/payment/return` checks backend payment confirmation and supports re-sign-in on a new origin. Inline checkout completion opens this page. See PAYMENT-STAGING.md for root-domain build settings and the required backend routing for `/payment/notify`.

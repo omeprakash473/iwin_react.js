@@ -1,3 +1,5 @@
+import {signupSelectionError, requiresSignupSubjects} from './signupOptions.js';
+
 export const API_BASE = (import.meta.env?.VITE_API_BASE_URL || (import.meta.env?.DEV ? '/backend' : 'https://api-dev.i-winlearning.com')).replace(/\/$/, '');
 const SESSION_KEY = 'iwin.auth.session';
 let session = null;
@@ -95,6 +97,8 @@ export async function changePassword(current_password, new_password) {
  const data = await authorizedRequest('/api/v1/auth/password', {current_password, new_password});
  return acceptTokens(data, identity, current);
 }
-export async function registerStudent({username, email, password, class_standard}) {
- return request('/api/v1/auth/register', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:username.trim(), email:email.trim(), password, class_standard:Number(class_standard)})});
+export async function registerStudent({username, email, password, class_standard, board, subjects}) {
+ const selectionError = signupSelectionError(board, subjects, class_standard);
+ if (selectionError) throw new Error(selectionError);
+ return request('/api/v1/auth/register', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:username.trim(), email:email.trim(), password, class_standard:Number(class_standard), board, ...(requiresSignupSubjects(class_standard) ? {subjects} : {})})});
 }
