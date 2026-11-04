@@ -8,7 +8,15 @@ test('design preview requires a development build on a loopback host',()=>{
   assert.equal(previewAllowed(true,host),true);
   assert.equal(previewAllowed(false,host),false);
  }
- for(const host of ['pathway-dev.i-winlearning.com','omeprakash473.github.io','192.168.1.11','localhost.example.com',''])assert.equal(previewAllowed(true,host),false);
+ for(const host of ['omeprakash473.github.io','pathway.i-winlearning.com','192.168.1.11','localhost.example.com','pathway-dev.i-winlearning.com.example.com',''])assert.equal(previewAllowed(true,host),false);
+});
+
+test('staging preview works in a deployment build only on the exact staging hostname and can be disabled',()=>{
+ assert.equal(previewAllowed(false,'pathway-dev.i-winlearning.com'),true);
+ assert.equal(previewAllowed(true,'pathway-dev.i-winlearning.com'),true);
+ for(const development of [true,false])assert.equal(previewAllowed(development,'pathway-dev.i-winlearning.com',false),false);
+ for(const host of ['omeprakash473.github.io','pathway.i-winlearning.com','www.i-winlearning.com','api-dev.i-winlearning.com','pathway-dev.i-winlearning.com.example.org'])assert.equal(previewAllowed(false,host),false);
+ assert.equal(previewAllowed(true,'localhost',false),false);
 });
 test('payment preview does not imply assessment completion',()=>{
  assert.equal(previewCompleted('paid'),0);

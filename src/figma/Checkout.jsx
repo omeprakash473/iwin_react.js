@@ -1,3 +1,4 @@
+import {DESIGN_PREVIEW_ENABLED} from '../payments/previewState.js';
 import {openCheckoutDialog} from '../payments/checkoutDialog.js';
 import React,{useEffect,useRef,useState} from 'react';
 import Link from '../components/Link.jsx';
@@ -68,7 +69,7 @@ export default function Checkout() {
  <Field label="Mobile number for payment" id="payment-phone" name="phone" type="tel" inputMode="numeric" autoComplete="tel-national" pattern="[6-9][0-9]{9}" minLength={10} maxLength={10} title="Enter a 10-digit Indian mobile number starting with 6, 7, 8 or 9" placeholder="9876543210" required disabled={pending||confirming||polling} onInput={event=>{event.currentTarget.value=event.currentTarget.value.replace(/[^0-9]/g,'');}} />
  <button className="btn btn-primary full-width" type="submit" disabled={pending||confirming||polling}>{pending?'Opening secure checkout…':confirming?'Awaiting account confirmation':polling?'Waiting for payment confirmation…':'Pay ₹500 securely →'}</button>
  </form>
- {import.meta.env.DEV && <CheckoutPreviewButton/>}
+ {DESIGN_PREVIEW_ENABLED && <CheckoutPreviewButton/>}
  <button className="btn btn-outline full-width" type="button" onClick={check} disabled={checking||pending}>{checking?'Checking…':'Already paid? Check payment status'}</button>
  {error&&<p className="field-error" role="alert">{error}</p>}{message&&<p className="notice" role="status">{message}</p>}
  <p className="payment-security"><img src={import.meta.env.BASE_URL+'assets/checkout/c53b6.svg'} alt=""/><span>Your assessments will unlock once your payment is confirmed. If you have already paid, select “Check payment status”.</span></p>

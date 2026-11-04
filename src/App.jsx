@@ -1,3 +1,4 @@
+import {DESIGN_PREVIEW_ENABLED} from './payments/previewState.js';
 import {PaymentProvider,usePayment} from './payments/PaymentContext.jsx';
 import {routeRequiresPayment} from './payments/accessFlow.js';
 import { AuthProvider, useAuth, navigateTo } from './auth/AuthContext.jsx';
@@ -32,16 +33,16 @@ const ChangePassword=lazy(()=>import('./figma/Account.jsx').then(module=>({defau
 const ForgotPassword=lazy(()=>import('./figma/ForgotPassword.jsx'));
 const Signup=lazy(()=>import('./figma/Signup.jsx'));
 const Checkout=lazy(()=>import('./figma/Checkout.jsx'));
-const CareerInterestPreview=import.meta.env.DEV ? lazy(()=>import('./figma/CareerInterestPreview.jsx')) : null;
+const CareerInterestPreview=DESIGN_PREVIEW_ENABLED ? lazy(()=>import('./figma/CareerInterestPreview.jsx')) : null;
 
-const screens = { ...(import.meta.env.DEV ? {'/assessment/career-interest':CareerInterestPreview} : {}), ...serviceScreens, '/career-interest-assessment':CareerInterestAssessment, '/about-us':AboutUs, '/about':AboutUs, '/parents-concerns':ParentsConcerns, '/parents':ParentsConcerns, '/terms-and-conditions':()=> <LegalPage page="terms"/>, '/contact':Contact, '/contact-us':Contact, '/cookie-policy':CookiePolicy, '/refund-policy':RefundPolicy, '/faqs':Faqs, '/student-assessment-disclaimer':StudentAssessmentDisclaimer, '/terms-of-services':()=> <LegalPage page="terms"/>, '/privacy-policy':PrivacyPolicy, '/school-agreement':()=> <LegalPage page="school"/>, '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
+const screens = { ...(DESIGN_PREVIEW_ENABLED ? {'/assessment/career-interest':CareerInterestPreview} : {}), ...serviceScreens, '/career-interest-assessment':CareerInterestAssessment, '/about-us':AboutUs, '/about':AboutUs, '/parents-concerns':ParentsConcerns, '/parents':ParentsConcerns, '/terms-and-conditions':()=> <LegalPage page="terms"/>, '/contact':Contact, '/contact-us':Contact, '/cookie-policy':CookiePolicy, '/refund-policy':RefundPolicy, '/faqs':Faqs, '/student-assessment-disclaimer':StudentAssessmentDisclaimer, '/terms-of-services':()=> <LegalPage page="terms"/>, '/privacy-policy':PrivacyPolicy, '/school-agreement':()=> <LegalPage page="school"/>, '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
 
 function routePath(url) {
  const base = import.meta.env.BASE_URL;
  const pathname = new URL(url).pathname;
  return (base !== '/' && pathname.startsWith(base) ? '/' + pathname.slice(base.length) : pathname).toLowerCase().replace(/\/$/, '') || '/';
 }
-export default function App() { return <AuthProvider><PaymentProvider>{import.meta.env.DEV ? <DevelopmentPreviewProvider><AppContent /></DevelopmentPreviewProvider> : <AppContent />}</PaymentProvider></AuthProvider>; }
+export default function App() { return <AuthProvider><PaymentProvider>{DESIGN_PREVIEW_ENABLED ? <DevelopmentPreviewProvider><AppContent /></DevelopmentPreviewProvider> : <AppContent />}</PaymentProvider></AuthProvider>; }
 function AppContent() {
   const {session, ready, error:sessionError} = useAuth();
   const payment=usePayment();

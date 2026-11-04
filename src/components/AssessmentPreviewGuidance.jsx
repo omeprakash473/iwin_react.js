@@ -19,7 +19,7 @@ export default function AssessmentPreviewGuidance({assessment}) {
  return <><button className="student-assessment-locked aptitude-guidance-trigger" type="button" aria-label={assessment+' locked — complete Career Interest first'} onClick={()=>dialog.current.showModal()}><img src={assets+'dashboard/17c41.svg'} alt=""/>Locked</button>
  <dialog ref={dialog} className="career-discovery-dialog" aria-labelledby={id+'-title'} aria-describedby={id+'-description'}>
   <button type="button" className="career-dialog-close" aria-label="Close next step guidance" onClick={()=>dialog.current.close()}><img src={assets+'career-preview/b9ba7.svg'} alt=""/></button>
-  <p className="career-eyebrow">Next step guidance · local demo</p>
+  <p className="career-eyebrow">Next step guidance · demo preview</p>
   <div className="career-discovery-mascot"><img src={assets+'career-preview/115db.svg'} alt=""/></div>
   <p className="career-eyebrow">0/6 sections completed · simulated</p>
   <h2 id={id+'-title'}>Complete Career Interest first</h2>
