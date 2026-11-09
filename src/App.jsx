@@ -4,11 +4,13 @@ import {routeRequiresPayment} from './payments/accessFlow.js';
 import { AuthProvider, useAuth, navigateTo } from './auth/AuthContext.jsx';
 import React, { Suspense, lazy, useEffect, useLayoutEffect, useState } from 'react';
 import Header from './components/Header.jsx';
+import {BuddyProvider,BuddyCompanion} from './buddy/Buddy.jsx';
 import Landing from './figma/Landing.jsx';
 import Success from './figma/Success.jsx';
 import PaymentReturn from './figma/PaymentReturn.jsx';
 import './styles.css';
 import './landing-v1.css';
+import './ui-polish.css';
 import {DevelopmentPreviewProvider} from './payments/DevelopmentPreview.jsx';
 
 const AssessmentService=lazy(()=>import('./figma/AssessmentService.jsx'));
@@ -27,6 +29,8 @@ const Faqs=lazy(()=>import('./figma/Faqs.jsx'));
 const StudentAssessmentDisclaimer=lazy(()=>import('./figma/StudentAssessmentDisclaimer.jsx'));
 const Login=lazy(()=>import('./figma/Login.jsx'));
 const Dashboard=lazy(()=>import('./figma/Dashboard.jsx'));
+const MyReports=lazy(()=>import('./figma/MyReports.jsx'));
+const CareerExplorer=lazy(()=>import('./figma/CareerExplorer.jsx'));
 const DashboardProgress=lazy(()=>import('./figma/Dashboard.jsx').then(module=>({default:module.DashboardProgress})));
 const Account=lazy(()=>import('./figma/Account.jsx'));
 const ChangePassword=lazy(()=>import('./figma/Account.jsx').then(module=>({default:module.ChangePassword})));
@@ -35,14 +39,14 @@ const Signup=lazy(()=>import('./figma/Signup.jsx'));
 const Checkout=lazy(()=>import('./figma/Checkout.jsx'));
 const CareerInterestPreview=DESIGN_PREVIEW_ENABLED ? lazy(()=>import('./figma/CareerInterestPreview.jsx')) : null;
 
-const screens = { ...(DESIGN_PREVIEW_ENABLED ? {'/assessment/career-interest':CareerInterestPreview} : {}), ...serviceScreens, '/career-interest-assessment':CareerInterestAssessment, '/about-us':AboutUs, '/about':AboutUs, '/parents-concerns':ParentsConcerns, '/parents':ParentsConcerns, '/terms-and-conditions':()=> <LegalPage page="terms"/>, '/contact':Contact, '/contact-us':Contact, '/cookie-policy':CookiePolicy, '/refund-policy':RefundPolicy, '/faqs':Faqs, '/student-assessment-disclaimer':StudentAssessmentDisclaimer, '/terms-of-services':()=> <LegalPage page="terms"/>, '/privacy-policy':PrivacyPolicy, '/school-agreement':()=> <LegalPage page="school"/>, '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
+const screens = { '/reports':MyReports, '/reports/detail':MyReports, '/career-explorer':CareerExplorer, ...(DESIGN_PREVIEW_ENABLED ? {'/assessment/career-interest':CareerInterestPreview} : {}), ...serviceScreens, '/career-interest-assessment':CareerInterestAssessment, '/about-us':AboutUs, '/about':AboutUs, '/parents-concerns':ParentsConcerns, '/parents':ParentsConcerns, '/terms-and-conditions':()=> <LegalPage page="terms"/>, '/contact':Contact, '/contact-us':Contact, '/cookie-policy':CookiePolicy, '/refund-policy':RefundPolicy, '/faqs':Faqs, '/student-assessment-disclaimer':StudentAssessmentDisclaimer, '/terms-of-services':()=> <LegalPage page="terms"/>, '/privacy-policy':PrivacyPolicy, '/school-agreement':()=> <LegalPage page="school"/>, '/': Landing, '/landing': Landing, '/login': Login, '/dashboard': Dashboard, '/dashboard-progress': DashboardProgress, '/profile': Account, '/change-password': ChangePassword, '/forgot-password': ForgotPassword, '/signup': Signup, '/checkout': Checkout, '/success': Success, '/payment/return': PaymentReturn };
 
 function routePath(url) {
  const base = import.meta.env.BASE_URL;
  const pathname = new URL(url).pathname;
  return (base !== '/' && pathname.startsWith(base) ? '/' + pathname.slice(base.length) : pathname).toLowerCase().replace(/\/$/, '') || '/';
 }
-export default function App() { return <AuthProvider><PaymentProvider>{DESIGN_PREVIEW_ENABLED ? <DevelopmentPreviewProvider><AppContent /></DevelopmentPreviewProvider> : <AppContent />}</PaymentProvider></AuthProvider>; }
+export default function App() { return <AuthProvider><PaymentProvider><BuddyProvider>{DESIGN_PREVIEW_ENABLED ? <DevelopmentPreviewProvider><AppContent /></DevelopmentPreviewProvider> : <AppContent />}</BuddyProvider></PaymentProvider></AuthProvider>; }
 function AppContent() {
   const {session, ready, error:sessionError} = useAuth();
   const payment=usePayment();
@@ -80,7 +84,7 @@ function AppContent() {
     setLocation(next.href);
   }
 
-  const protectedPage = ['/dashboard','/dashboard-progress','/profile','/change-password','/checkout','/success','/assessment/career-interest'].includes(routePath(location));
+  const protectedPage = ['/dashboard','/dashboard-progress','/profile','/change-password','/checkout','/success','/assessment/career-interest','/career-explorer','/reports','/reports/detail'].includes(routePath(location));
   useEffect(() => { if(ready && protectedPage && !session) navigateTo('/login', true); }, [ready, protectedPage, session]);
   const requiresPayment=routeRequiresPayment(routePath(location));
   const paymentPage=requiresPayment || routePath(location)==='/checkout';
@@ -95,5 +99,5 @@ function AppContent() {
   if(paymentPage && session && payment.status==='error')return <><Header/><main className="account-page"><section className="account-card"><h1>Unable to check payment status</h1><p role="alert">{payment.error}</p><p>Your account has not been charged by this check. Please retry to confirm access.</p><button className="btn btn-primary" onClick={()=>payment.refresh().catch(()=>{})}>Retry payment check</button></section></main></>;
   if(paymentPage && session && (payment.status!=='ready' || (requiresPayment && !payment.unlocked) || (routePath(location)==='/checkout'&&payment.unlocked)))return <><Header/><main className="account-page" role="status">Checking your registration payment…</main></>;
   const Screen = screens[routePath(location)] || Landing;
-  return <div onClick={navigate}><Header studentDashboard={['/dashboard','/dashboard-progress','/assessment/career-interest'].includes(routePath(location))} landing={Screen === Landing || Screen === CareerInterestAssessment || Boolean(serviceScreens[routePath(location)]) || ['/contact','/contact-us','/about-us','/about','/parents-concerns','/parents','/terms-and-conditions','/terms-of-services','/privacy-policy','/refund-policy','/cookie-policy','/faqs','/school-agreement','/student-assessment-disclaimer'].includes(routePath(location))} dashboardHome="/dashboard" key={new URL(location).pathname} /><Suspense fallback={<main id="main-content" className="account-page" role="status">Loading page…</main>}><Screen /></Suspense></div>;
+  return <div onClick={navigate}><Header searchAction={routePath(location).startsWith('/reports')?'reports':routePath(location)==='/career-explorer'?'career-explorer':'dashboard'} studentDashboard={['/dashboard','/dashboard-progress','/assessment/career-interest','/career-explorer','/reports','/reports/detail'].includes(routePath(location))} landing={Screen === Landing || Screen === CareerInterestAssessment || Boolean(serviceScreens[routePath(location)]) || ['/contact','/contact-us','/about-us','/about','/parents-concerns','/parents','/terms-and-conditions','/terms-of-services','/privacy-policy','/refund-policy','/cookie-policy','/faqs','/school-agreement','/student-assessment-disclaimer'].includes(routePath(location))} dashboardHome="/dashboard" key={new URL(location).pathname} /><BuddyCompanion route={routePath(location)} signedIn={Boolean(session)}/><Suspense fallback={<main id="main-content" className="account-page" role="status">Loading page…</main>}><Screen /></Suspense></div>;
 }

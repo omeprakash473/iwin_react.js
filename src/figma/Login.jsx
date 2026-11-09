@@ -1,3 +1,4 @@
+import {useBuddy} from '../buddy/Buddy.jsx';
 import React, { useState } from 'react';
 import Link from '../components/Link.jsx';
 import AuthLayout from '../components/AuthLayout.jsx';
@@ -6,6 +7,7 @@ import {signIn} from '../auth/client.js';
 import {navigateTo} from '../auth/AuthContext.jsx';
 import {loginDestination} from '../payments/returnFlow.js';
 export default function Login() {
+ const buddy=useBuddy();
  const [error,setError]=useState(() => new URLSearchParams(window.location.search).get('logout') === 'unconfirmed' ? 'Signed out of this tab. The server could not confirm sign-out on other devices.' : ''); const [pending,setPending]=useState(false);
  async function submit(event) {
   event.preventDefault(); if(pending)return;
@@ -13,7 +15,7 @@ export default function Login() {
   const identity=form.elements.identity.value; const password=form.elements.password.value;
   setPending(true);setError('');
   try {await signIn(identity,password);form.reset();sessionStorage.removeItem('iwin-dashboard-preview');navigateTo(loginDestination(window.location.search));}
-  catch(error){setError(error.message);} finally{setPending(false);}
+  catch(error){setError(error.message);buddy.cue('support');} finally{setPending(false);}
  }
  return <AuthLayout image={import.meta.env.BASE_URL+'assets/login/8f0ea.png'} title="Your progress is exactly where you left it.">
   <div className="form-heading"><p className="eyebrow">Continue your journey</p><h1>Log in to I-WIN</h1><p>Sign in to your account to continue.</p></div>

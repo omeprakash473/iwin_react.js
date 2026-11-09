@@ -1,3 +1,4 @@
+import {useBuddy} from '../buddy/Buddy.jsx';
 import Link from '../components/Link.jsx';
 import React, { useState } from 'react';
 import AuthLayout from '../components/AuthLayout.jsx';
@@ -7,6 +8,7 @@ import {signupBoards, signupSubjects, maxSignupSubjects, signupSelectionError, r
 import './Signup.css';
 
 export default function Signup() {
+ const buddy=useBuddy();
   const [created, setCreated] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
@@ -30,8 +32,8 @@ export default function Signup() {
     const fields = form.elements;
     const payload = {username:fields.username.value,email:fields.email.value,password:fields.password.value,class_standard:classStandard,board,...(showSubjects ? {subjects} : {})};
     setPending(true); setError('');
-    try { await registerStudent(payload); form.reset(); setBoard(''); setClassStandard(''); setSubjects([]); setCreated(true); }
-    catch(error) { setError(error.message); }
+    try { await registerStudent(payload); form.reset(); setBoard(''); setClassStandard(''); setSubjects([]); setCreated(true);buddy.cue('account-created'); }
+    catch(error) { setError(error.message);buddy.cue('support'); }
     finally { setPending(false); }
   }
   return <AuthLayout image={import.meta.env.BASE_URL+'assets/signup/b0feb.png'} title="One honest answer at a time. Your path will take shape.">

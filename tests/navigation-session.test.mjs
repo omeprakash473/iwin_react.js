@@ -31,11 +31,11 @@ test('signed-in homepage, pathway, dashboard and profile keep the profile naviga
 test('signed-out homepage shows Login and Join, and protected routes render no private content',async()=>{
  const html=await renderPage('http://localhost/',false);
  assert.match(html,/Login ↗/);assert.match(html,/Join ↗/);assert.doesNotMatch(html,/test_student profile/);
- for(const route of ['/dashboard','/dashboard-progress','/profile','/change-password','/checkout','/success'])assert.equal(await renderPage('http://localhost'+route,false),'');
+ for(const route of ['/dashboard','/dashboard-progress','/profile','/change-password','/checkout','/success','/career-explorer','/reports','/reports/detail'])assert.equal(await renderPage('http://localhost'+route,false),'');
 });
 
 test('signed-in dashboard renders its header without waiting for a payment response',async()=>{
- for(const route of ['/dashboard','/dashboard-progress']) {
+ for(const route of ['/dashboard','/dashboard-progress','/career-explorer','/reports','/reports/detail']) {
   const html=await renderPage('http://localhost'+route,true);
   assert.match(html,/student-dashboard-header/);
   assert.match(html,/Search assessments and services/);

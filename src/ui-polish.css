@@ -1,0 +1,195 @@
+/* Shared visual polish: restrained elevation and playful, accessible interaction effects. */
+:root {
+  --iwin-card-shadow: 0 3px 10px rgba(28, 35, 88, .035), 0 12px 28px rgba(28, 35, 88, .045);
+  --iwin-card-shadow-raised: 0 6px 16px rgba(28, 35, 88, .065), 0 18px 36px rgba(28, 35, 88, .08);
+  --iwin-ease: cubic-bezier(.2, .7, .3, 1);
+}
+/* Only established card surfaces receive elevation; document text stays flat. */
+:is(.explorer-card, .explorer-career-card, .explorer-about-hero,
+    .explorer-strength-banner, .student-assessment-card, .student-resource,
+    .student-profile-card, .student-locked-panel, .student-session-card,
+    .service-card, .story-card, .searchable-faq-card, .order-card,
+    .account-card, .service-detail-table-card, .skills-program-grid > article,
+    .guidance-card-grid > article) {
+  box-shadow: var(--iwin-card-shadow);
+  transition: box-shadow 220ms var(--iwin-ease), border-color 220ms ease,
+              transform 220ms var(--iwin-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  :is(.explorer-card, .explorer-career-card, .student-assessment-card,
+      .student-resource, .service-card):has(:is(a[href], button:not(:disabled))):hover {
+    transform: translateY(-3px);
+    box-shadow: var(--iwin-card-shadow-raised);
+    border-color: #bac8ed;
+  }
+  .btn:not(:disabled):hover { box-shadow: 0 5px 14px rgba(43, 47, 143, .16); }
+}
+:is(.explorer-card, .explorer-career-card, .student-assessment-card,
+    .student-resource, .service-card):focus-within {
+  box-shadow: var(--iwin-card-shadow-raised);
+}
+.btn { transition: background-color 180ms ease, color 180ms ease,
+                   border-color 180ms ease, box-shadow 180ms ease; }
+/* One brief entry per mounted screen. No opacity hiding, animation delays or scroll listeners. */
+@media (prefers-reduced-motion: no-preference) {
+  :is(.explorer-list-heading, .explorer-about-hero, .explorer-detail-heading,
+      .student-welcome, .service-detail-hero-grid, .information-page-hero > div) {
+    animation: iwin-screen-enter 360ms var(--iwin-ease);
+  }
+  dialog[open] { animation: iwin-dialog-enter 200ms var(--iwin-ease); }
+  @keyframes iwin-screen-enter {
+    from { transform: translateY(7px); }
+    to { transform: translateY(0); }
+  }
+  @keyframes iwin-dialog-enter {
+    from { transform: translateY(5px); }
+    to { transform: translateY(0); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+}
+@media (max-width: 600px) {
+  :root { --iwin-card-shadow: 0 3px 12px rgba(28, 35, 88, .055); }
+}
+
+/* Colour travels around the edge without resizing the card or covering its content. */
+@property --iwin-border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+:is(.service-card, .explorer-career-card, .explorer-card,
+    .student-assessment-card, .student-resource):has(:is(a[href], button:not(:disabled))) {
+  position: relative;
+}
+@supports (mask-composite: exclude) {
+  :is(.service-card, .explorer-career-card, .explorer-card,
+      .student-assessment-card, .student-resource):has(:is(a[href], button:not(:disabled)))::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 3px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--iwin-border-angle),
+      #3156ef, #8060e8, #0db8ae, #ffd35a, #3156ef);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+  :is(.service-card, .explorer-career-card, .explorer-card,
+      .student-assessment-card, .student-resource):has(:is(a[href], button:not(:disabled))):focus-within::before { opacity: 1; }
+  @media (hover: hover) and (pointer: fine) {
+    :is(.service-card, .explorer-career-card, .explorer-card,
+        .student-assessment-card, .student-resource):has(:is(a[href], button:not(:disabled))):hover::before { opacity: 1; }
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) and (pointer: fine) {
+    :is(.service-card, .explorer-career-card, .explorer-card,
+        .student-assessment-card, .student-resource):has(:is(a[href], button:not(:disabled))):hover::before {
+      animation: iwin-colour-border 3s linear infinite;
+    }
+    .service-card:hover .service-explore { translate: 4px 0; }
+    .explorer-career-card:hover > .explorer-art { translate: 0 -4px; }
+    .btn:not(:disabled):active { scale: .98; }
+  }
+  /* Brief welcome motion settles in under five seconds. Existing transforms are preserved. */
+  :is(.landing-v1 .discovery-badge, .student-welcome .student-buddy) {
+    animation: iwin-friendly-bob 2.2s ease-in-out 2;
+  }
+  .landing-v1 .mini-chart span {
+    transform-origin: left center;
+    animation: iwin-chart-grow 650ms var(--iwin-ease) both;
+  }
+  .landing-v1 .mini-chart span:nth-child(2) { animation-delay: 90ms; }
+  .landing-v1 .mini-chart span:nth-child(3) { animation-delay: 180ms; }
+  @supports (animation-timeline: view()) {
+    :is(.services-grid > .service-card, .explorer-career-card,
+        .skills-program-grid > article, .guidance-card-grid > article) {
+      animation: iwin-card-arrive linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 85%;
+    }
+  }
+  @keyframes iwin-colour-border { to { --iwin-border-angle: 360deg; } }
+  @keyframes iwin-friendly-bob {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -6px; }
+  }
+  @keyframes iwin-chart-grow { from { scale: .65 1; } to { scale: 1 1; } }
+  @keyframes iwin-card-arrive {
+    from { translate: 0 10px; }
+    to { translate: 0 0; }
+  }
+}
+.service-explore, .explorer-career-card > .explorer-art {
+  transition: translate 220ms var(--iwin-ease);
+}
+/* Touch interaction gets an immediate colour response without continuous repainting. */
+@media (hover: none) {
+  :is(.service-card, .explorer-career-card, .student-resource):active {
+    border-color: #8060e8;
+    box-shadow: 0 4px 18px rgba(70, 67, 167, .14);
+  }
+}
+
+/* Assessment choices: visual feedback indicates selection, never correctness. */
+.career-preview-shell :is(.career-info-card, .career-guidance-card,
+    .career-question-heading, .career-answers) {
+  box-shadow: var(--iwin-card-shadow);
+}
+.career-preview-shell .career-answer {
+  position: relative;
+  transition: box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+.career-preview-shell .career-answer.selected {
+  box-shadow: 0 0 0 2px rgba(36, 83, 235, .09), 0 5px 16px rgba(36, 83, 235, .1);
+}
+.career-preview-shell .career-choice-mark {
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+@supports (mask-composite: exclude) {
+  .career-preview-shell .career-answer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--iwin-border-angle), #3156ef, #8060e8, #0db8ae, #ffd35a, #3156ef);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+  .career-preview-shell .career-answer:focus-within::before { opacity: 1; }
+  @media (hover: hover) and (pointer: fine) {
+    .career-preview-shell .career-answer:hover::before { opacity: 1; }
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .career-preview-shell .career-answer:hover {
+    border-color: #8060e8;
+    box-shadow: 0 5px 18px rgba(49, 50, 143, .1);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .career-preview-shell .career-question-form { animation: iwin-question-enter 220ms var(--iwin-ease); }
+  .career-preview-shell .career-question-progress > div > span { transition: width 300ms var(--iwin-ease); }
+  .career-preview-shell .career-answer.selected .career-choice-mark { animation: iwin-choice-select 200ms var(--iwin-ease); }
+  @media (hover: hover) and (pointer: fine) {
+    .career-preview-shell .career-answer:hover::before { animation: iwin-colour-border 3s linear infinite; }
+  }
+  @keyframes iwin-question-enter {
+    from { translate: 0 5px; }
+    to { translate: 0 0; }
+  }
+  @keyframes iwin-choice-select {
+    0% { scale: .9; }
+    65% { scale: 1.08; }
+    100% { scale: 1; }
+  }
+}
