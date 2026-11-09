@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="130" height="120" viewBox="0 0 130 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="mascot-area" clip-path="url(#clip0_0_50)">
+<path id="Legs" d="M35 85L22 113M89 85L104 113" stroke-width="8" stroke-linecap="round" stroke="#FFDC76"/>
+<path id="Feet" d="M18 115H36M100 115H118" stroke-width="8" stroke-linecap="round" stroke="#FFDC76"/>
+<path id="Arms" d="M18 51L0 37M110 50L130 30" stroke-width="9" stroke-linecap="round" stroke="white"/>
+<path id="Compass" d="M65 102C93.1665 102 116 79.1665 116 51C116 22.8335 93.1665 0 65 0C36.8335 0 14 22.8335 14 51C14 79.1665 36.8335 102 65 102Z" fill="#3CBAFE"/>
+<path id="Face" d="M65 91C87.0914 91 105 73.0914 105 51C105 28.9086 87.0914 11 65 11C42.9086 11 25 28.9086 25 51C25 73.0914 42.9086 91 65 91Z" fill="white"/>
+<path id="Needle" d="M59 17L89 48L62 87L41 55L59 17Z" fill="#FFDC76"/>
+<path id="Eye" d="M52 52C53.6569 52 55 50.6569 55 49C55 47.3431 53.6569 46 52 46C50.3431 46 49 47.3431 49 49C49 50.6569 50.3431 52 52 52Z" fill="#122349"/>
+<path id="Eye_2" d="M78 52C79.6569 52 81 50.6569 81 49C81 47.3431 79.6569 46 78 46C76.3431 46 75 47.3431 75 49C75 50.6569 76.3431 52 78 52Z" fill="#122349"/>
+<path id="Smile" d="M55 63.9994C61.6667 69.9958 68 69.6627 74 63" stroke-width="3" stroke-linecap="round" stroke="#122349"/>
+</g>
+<defs>
+<clipPath id="clip0_0_50">
+<rect width="130" height="120" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,55 @@
+/* Shared static-page template from Figma's static section and supplied Contact reference. */
+.information-page{font-family:'DM Sans Landing','DM Sans',Arial,sans-serif;color:#50555b;font-optical-sizing:none;font-variation-settings:'opsz' 9;background:white}
+.information-page-container{width:calc(100% - 160px);max-width:1280px;margin-inline:auto}
+.information-page-hero{background:#eff4ff;padding:32px 0}
+.information-page-breadcrumb{font-size:13px;line-height:17px;margin-bottom:28px}
+.information-page-breadcrumb a:hover{text-decoration:underline}
+.information-page-eyebrow{color:#2453eb;font-size:11px;font-weight:700;line-height:14px;text-transform:uppercase;margin-bottom:28px;font-variation-settings:'opsz' 14}
+.information-page-hero h1{font-size:40px;line-height:1.3;font-weight:700;color:#101566;letter-spacing:0;margin:0 0 24px;font-variation-settings:'opsz' 14}
+.information-page-hero>.information-page-container>p:last-child{font-size:16px;line-height:1.6;max-width:1000px}
+.information-page-document{padding-block:64px;display:grid;grid-template-columns:232px minmax(0,1fr);gap:35px;align-items:start}
+.information-page-contents{position:sticky;top:120px;max-height:calc(100vh - 150px);overflow:auto;padding-right:8px;font-size:12px;line-height:18px;scrollbar-width:thin;scrollbar-color:#d6e2f5 transparent}
+.information-page-contents summary{font-size:11px;font-weight:700;line-height:14px;text-transform:uppercase;list-style:none;cursor:pointer;color:#50555b}
+.information-page-contents summary::-webkit-details-marker{display:none}
+.information-page-contents ul{list-style:none;padding:0;margin:19px 0 0}
+.information-page-contents li+li{margin-top:18px}
+.information-page-contents a{display:block;text-transform:uppercase;overflow-wrap:anywhere}
+.information-page-contents a:hover{color:#101566;text-decoration:underline}
+.information-page-content{border-left:1px solid #d6e2f5;padding-left:35px;min-height:654px;min-width:0;font-size:16px;line-height:25.6px}
+.information-page-content>article{max-width:800px;width:100%;margin:0;padding:0;border:0;background:transparent;border-radius:0;box-shadow:none}
+.information-page-content h2{font-size:22px;line-height:29px;letter-spacing:0;font-weight:700;text-transform:uppercase;color:#101566;margin:0 0 23px;font-variation-settings:'opsz' 14;scroll-margin-top:12px}
+.information-page-content h3{font-size:18px;line-height:25px;font-weight:700;letter-spacing:0;color:#101566;margin:24px 0 12px;scroll-margin-top:12px}
+.information-page-content p{margin:0 0 12px;overflow-wrap:anywhere}
+.information-page-content section+section{margin-top:32px}
+.information-page-content ul,.information-page-content ol{padding-left:24px;margin:12px 0 20px}
+.information-page-content ul{list-style:disc}.information-page-content ol{list-style:decimal}
+.information-page-content li+li{margin-top:12px}
+.information-page-content a{color:inherit;text-decoration:none;overflow-wrap:anywhere}
+.information-page-content a:hover{text-decoration:underline;color:#101566}
+.information-page-content .information-document-meta{margin:0 0 32px}
+.information-document-meta h2[data-toc-exclude]{margin-bottom:23px}
+.information-page-content .cookie-policy-footer,.information-page-content .policy-contact{margin-top:32px}
+.information-page-content table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.6;margin:20px 0}
+.information-page-content td,.information-page-content th{border:1px solid #d6e2f5;text-align:left;vertical-align:top;padding:14px}
+.information-page-content th{background:#eff4ff;font-weight:700;color:#101566}
+.information-page-content .school-agreement-table-wrap,.information-page-content .refund-table-wrap{max-width:100%;overflow-x:auto}
+.information-page-content hr{border:0;border-top:1px solid #d6e2f5;margin:32px 0}
+.information-page-content .school-agreement-content>h2:not(:first-child){margin-top:32px}
+.information-page-content .school-agreement-content>h3{margin-top:24px}
+.information-page-content .faq-page-item{border:0;border-bottom:1px solid #e2e8f3;border-radius:0;margin:0;padding:16px 0}
+.information-page-content .faq-page-item summary{cursor:pointer;font-weight:700;color:#101566}
+.information-page-content .faq-page-answer{margin-top:16px}
+.information-page-content .parent-concerns-table td{width:50%}
+.information-page-content .parent-concerns-table .concern-question{font-weight:500}
+.information-page-content .parent-concern-extra{margin-top:24px}
+.information-page-content .parent-concern-extra h3{margin-bottom:12px}
+.information-footer.landing-v1-footer{background:#f5f5f5;color:#151516;padding:64px 0}
+.information-footer.landing-v1-footer .footer-grid{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1.35fr);gap:48px;min-height:0;align-items:start}
+.information-footer.landing-v1-footer .footer-grid h3{display:none}
+.information-footer.landing-v1-footer .footer-grid>div:not(:first-child)>a{font-size:16px;line-height:24px;white-space:normal;overflow-wrap:anywhere;margin-bottom:12px}
+.information-footer.landing-v1-footer .footer-brand p{font-size:16px;margin-top:32px}
+.information-footer.landing-v1-footer .footer-bottom{margin-top:72px;border-color:#101566}
+.information-footer .information-footer-contact-details{margin-top:12px}
+.information-footer .information-footer-contact-details a{display:block;font-size:15px;line-height:24px;margin-bottom:12px;overflow-wrap:anywhere}
+@media(max-width:1100px){.information-page-container{width:calc(100% - 64px)}.information-page-document{grid-template-columns:190px minmax(0,1fr);gap:24px}.information-page-content{padding-left:24px}.information-footer.landing-v1-footer .footer-grid{gap:28px;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.information-page-container{width:calc(100% - 40px)}.information-page-hero h1{font-size:32px;line-height:1.25}.information-page-document{grid-template-columns:minmax(0,1fr);gap:32px;padding-block:40px}.information-page-contents{position:static;max-height:240px;border-bottom:1px solid #d6e2f5;padding:0 0 20px}.information-page-contents summary:after{content:' ⌄'}.information-page-content{border-left:0;padding-left:0;min-height:0}.information-page-content h2{font-size:20px;line-height:1.4}.information-page-content table{font-size:14px}.information-page-content th,.information-page-content td{padding:10px}.information-footer.landing-v1-footer .footer-grid{grid-template-columns:minmax(0,1fr);gap:32px}.information-footer.landing-v1-footer .footer-brand p{margin-top:20px}}
